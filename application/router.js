@@ -1,61 +1,113 @@
-module.exports = (function () {
-    // VENDOR LIBS
-    const React = require('react');
-    const ReactRouter = require('react-router');
-    const Router = ReactRouter.Router;
-    const render = require('react-dom').render;
-    const browserHistory = ReactRouter.browserHistory;
+module.exports.injectRouterTo = (angularModule) => {
+    angularModule.config([
+        '$stateProvider',
+        '$urlRouterProvider',
+        '$locationProvider',
+        ($stateProvider, $urlRouterProvider, $locationProvider) => {
+            $locationProvider.html5Mode(true);
 
-    // ROUTE TYPES
-    const Route = ReactRouter.Route;
-    const IndexRoute = ReactRouter.IndexRoute;
-    const IndexRedirect = ReactRouter.IndexRedirect;
-    const Redirect = Router.Redirect;
+            // ACCESS CONFIGURATION
+            $stateProvider
+                .state('access', {
+                    abstract: true,
+                    resolve: {
+                        user: () => {
 
-    const views = require('application/views');
-    const containers = require('application/containers');
+                        }
+                    },
+                    templateUrl: 'views/abstract.html',
+                    url: '/access'
+                })
+                .state('access.login', {
+                    url: '/login',
+                    templateUrl:  'views/access/login-view.html'
+                })
+                .state('access.register', {
+                    url: '/register',
+                    templateUrl:  'views/access/register-view.html'
+                })
+                .state('access.recovery', {
+                    url: '/recovery',
+                    templateUrl:  'views/access/recovery-view.html'
+                });
 
-    const ModuleRouter = function () {
-        this.routes = (
-            <Route path='/' component={containers.App}>
-                <Route path='app' component={containers.AppContainer}>
-                    <Route path='admin' component={containers.AdminContainer}>
-                        <Route path='dashboard' component={views.AdminDashboardView} />
-                        <Route path='questions' component={views.AdminQuestionsView}>
-                            <IndexRoute component={views.QuestionsListView} />
-                            <Route path="new" component={views.QuestionCreateEditView} />
-                            <Route path=":questionId" component={views.QuestionCreateEditView} />
-                        </Route>
-                        <Route path='surveys' component={views.AdminSurveysView}>
-                            <IndexRoute component={views.SurveysListView} />
-                            <Route path="new" component={views.SurveyCreateEditView} />
-                            <Route path=":surveyId" component={views.SurveyCreateEditView} />
-                        </Route>
+            // ACCESS FALLBACKS
+            $urlRouterProvider.when(new RegExp('/access*'), '/access/login');
 
-                        <IndexRedirect to='/app/admin/dashboard' />
-                    </Route>
-                    <IndexRoute component={containers.CommonUserContainer}>
-                        <Route path='dashboard' component={views.AdminDashboardView} />
+            // APP CONFIGURATION
+            $stateProvider
+                .state('app', {
+                    url: '/app',
+                    resolve: {
+                        user: () => {
 
-                        <IndexRedirect to='/app/admin/dashboard' />
-                    </IndexRoute>
-                </Route>
-                <Route path='access' component={containers.AccessContainer}>
-                    <Route path='login' component={views.LoginView} />
-                    <Route path='register' component={views.RegisterView} />
-                    <Route path='recovery' component={views.RecoveryView} />
+                        }
+                    },
+                    templateUrl: 'views/abstract.html'
+                });
 
-                    <IndexRedirect to='/access/login' />
-                </Route>
+            // ADMIN CONFIGURATION
+            $stateProvider
+                .state('app.admin', {
+                    abstract: true,
+                    url: '/admin',
+                    templateUrl: 'views/abstract.html'
+                })
+                .state('app.admin.dashboard', {
+                    url: '/dashboard',
+                    templateUrl: 'views/app/admin/admin-dashboard-view.html'
+                });
 
-                <IndexRedirect to='/app' />
-            </Route>
-        );
-    };
+            // ADMIN QUESTIONS CONFIGURATION
+            $stateProvider
+                .state('app.admin.questions', {
+                    abstract: true,
+                    url: '/questions',
+                    templateUrl: 'views/app/admin/questions/questions-view.html'
+                })
+                .state('app.admin.questions.list', {
+                    url: '/list',
+                    templateUrl: 'views/app/admin/questions/questions-list-view.html'
+                })
+                .state('app.admin.questions.create', {
+                    url: '/create',
+                    templateUrl: 'views/app/admin/questions/question-create-edit-view.html'
+                })
+                .state('app.admin.questions.edit', {
+                    url: '/edit/:questionId',
+                    templateUrl: 'views/app/admin/questions/question-create-edit-view.html'
+                });
 
-    ModuleRouter.prototype.run = function (mountElement) {
-        render(<Router history={browserHistory} routes={this.routes} />, mountElement);
-    };
+            // ADMIN QUESTIONS FALLBACKS
+            $urlRouterProvider.when(new RegExp('/app/admin/questions*'), '/app/admin/questions/list');
 
-    return new ModuleRouter();
-})();
+            // ADMIN SURVEYS CONFIGURATION
+            $stateProvider
+                .state('app.admin.surveys', {
+                    abstract: true,
+                    url: '/surveys',
+                    templateUrl: 'views/app/admin/surveys/surveys-view.html'
+                })
+                .state('app.admin.surveys.list', {
+                    url: '/list',
+                    templateUrl: 'views/app/admin/surveys/surveys-list-view.html'
+                })
+                .state('app.admin.surveys.create', {
+                    url: '/create',
+                    templateUrl: 'views/app/admin/surveys/survey-create-edit-view.html'
+                })
+                .state('app.admin.surveys.edit', {
+                    url: '/edit/:surveyId',
+                    templateUrl: 'views/app/admin/surveys/survey-create-edit-view.html'
+                });
+
+            // ADMIN SURVEYS FALLBACKS
+            $urlRouterProvider.when(new RegExp('/app/admin/surveys*'), '/app/admin/surveys/list');
+
+            // ADMIN FALLBACKS
+            $urlRouterProvider.when(new RegExp('/app/admin*'), '/app/admin/dashboard');
+
+            $urlRouterProvider.otherwise('/app');
+        }
+    ]);
+}

@@ -2,4 +2,7 @@ dist/
 node_modules/
 test-coverage/
 .idea/
+
+application/templates.js
+
 npm-debug.log

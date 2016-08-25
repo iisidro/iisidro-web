@@ -1,8 +1,10 @@
 // VENDOR LIBS
-const lodash = require('lodash');
-const call = (true) ? require('jquery').ajax : require('services/services');
+const _ = require('lodash');
+const path = require('path');
+//const call = (true) ? require('jquery').ajax : require('services/services');
 
 // LIBS
+/*
 const Storage = require('libs/generic/storage');
 
 class API extends Storage {
@@ -11,12 +13,7 @@ class API extends Storage {
         super(config);
 
         if (!this.__loaded) {
-            this.config = {
-                contentType: "application/json",
-                dataType: 'json',
-                host: 'https://iisidro-server.herokuapp.com/api/',
-                authToken: null
-            };
+
         }
 
         this.defaultConfig = {
@@ -40,20 +37,8 @@ class API extends Storage {
 
     post (config) {
         return call(lodash.extend(config, {
-            url: this.config.host + config.url,
+            url: path.join(this.config.host, this.config.apiRoot, config.url),
             method: 'POST',
-            contentType: this.config.contentType,
-            data: JSON.stringify(config.data),
-            dataType: this.config.dataType,
-            done: this.successFilter.bind(this, config.success),
-            fail: this.errorFilter.bind(this, config.error)
-        }, this.defaultConfig));
-    }
-
-    put (config) {
-        return call(lodash.extend(config, {
-            url: this.config.host + config.url,
-            method: 'PUT',
             contentType: this.config.contentType,
             data: JSON.stringify(config.data),
             dataType: this.config.dataType,
@@ -64,7 +49,7 @@ class API extends Storage {
 
     get (config) {
         return call(lodash.extend(config, {
-            url: this.config.host + config.url,
+            url: path.join(this.config.host, this.config.apiRoot, config.url),
             method: 'GET',
             contentType: this.config.contentType,
             data: JSON.stringify(config.data),
@@ -115,4 +100,32 @@ class API extends Storage {
     }
 }
 
-module.exports = new API({storageKey: 'API'});
+*/
+
+module.exports.injectTo = (angularModule) => {
+    angularModule.service('API', [
+        '$q',
+        '$http',
+        function ($q, $http) {
+
+            this.config = {
+                apiRoot: 'api',
+                contentType: "application/json",
+                dataType: 'json',
+                host: 'https://iisidro-server.herokuapp.com',
+                authToken: null
+            };
+
+            this.post = (config) => {
+                return $http({
+                    url: path.join(this.config.host, this.config.apiRoot, config.url),
+                    method: 'POST',
+                    contentType: this.config.contentType,
+                    data: JSON.stringify(config.data),
+                    dataType: this.config.dataType,
+                });
+            };
+
+        }
+    ]);
+};

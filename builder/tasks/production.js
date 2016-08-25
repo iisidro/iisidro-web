@@ -1,11 +1,11 @@
 'use strict';
 
 // VENDOR LIBS
-const gulp = require('gulp');
 const runSequence = require('run-sequence');
 
-gulp.task('prod', ['clean'], function(cb) {
-    global.production = true;
+gulp.task('default', () => {
+    let preBuildTasks = ['clean'];
+    let buildTasks = ['fonts', 'html', 'templates', 'scripts', 'styles'];
 
-    return runSequence(['sass', 'html', 'images', 'js-build', 'fonts', 'copy-icons'], cb);
+    runSequence(preBuildTasks, buildTasks);
 });

@@ -1,5 +1,8 @@
-@import "sass/base";
+@import "sass/partials/reset";
+@import "sass/mixins/clearfix";
 @import "sass/globals";
+
+@import 'node_modules/angular-material/angular-material.scss';
 
 @font-face {
     font-family: 'Material Icons';
