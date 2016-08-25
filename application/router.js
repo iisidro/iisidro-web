@@ -15,7 +15,7 @@ module.exports.injectRouterTo = (angularModule) => {
 
                         }
                     },
-                    templateUrl: 'views/abstract.html',
+                    templateUrl: 'containers/access-container.html',
                     url: '/access'
                 })
                 .state('access.login', {

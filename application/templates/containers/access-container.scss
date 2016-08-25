@@ -1,0 +1,11 @@
+@import "sass/globals";
+
+.access-container {
+    background: $primary;
+    min-height: 100%;
+
+    &--action-block {
+        width: 500px;
+        margin: 0 auto;
+    }
+}
