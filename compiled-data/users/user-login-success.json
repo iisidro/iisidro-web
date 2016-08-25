@@ -1,0 +1,14 @@
+{
+    "success": true,
+    "user": {
+        "login": "login",
+        "password": "login",
+        "firstName": "Andres",
+        "lastName": "Troiano",
+        "email": "troianoandres@gmail.com",
+        "activated": true,
+        "langKey": "es",
+        "activationKey": "",
+        "authorities": ["asd", "asd"]
+    }
+}

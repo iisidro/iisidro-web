@@ -1,0 +1,51 @@
+.icon {
+
+    &_material {
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+
+        /* Support for all WebKit browsers. */
+        -webkit-font-smoothing: antialiased;
+        /* Support for Safari and Chrome. */
+        text-rendering: optimizeLegibility;
+
+        /* Support for Firefox. */
+        -moz-osx-font-smoothing: grayscale;
+
+        /* Support for IE. */
+        font-feature-settings: 'liga';
+    }
+
+    &_extra-small {
+        font-size: 14px;
+    }
+
+    &_small {
+        font-size: 18px;
+    }
+
+    &_medium {
+        font-size: 22px;
+    }
+
+    &_large {
+        font-size: 24px;
+    }
+
+    &_extra-large {
+        font-size: 28px;
+    }
+
+    &_gigantic {
+        font-size: 32px;
+    }
+}

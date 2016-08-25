@@ -1,0 +1,102 @@
+@import "sass/globals";
+
+.modal {
+    box-shadow: $shadow-depth-4;
+    background: $primary-white;
+    display: table;
+    margin: 0 auto;
+    vertical-align: middle;
+    max-width: 100%;
+
+    &--wrapper {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        overflow-y: auto;
+    }
+
+    &-enter {
+        opacity: 0;
+        margin-top: -50px;
+        transition: opacity 0.2s, margin-top 0.2s;
+    }
+
+    &-enter-active {
+        opacity: 1;
+        margin-top: 0;
+    }
+}
+
+.date-picker {
+    display: flex;
+
+    &--selected-date-display {
+        background-color: $quaternary-black;
+        color: $primary-white;
+        display: inline-block;
+        width: 160px;
+    }
+
+    &--date-selector {
+        display: inline-block;
+
+        &-content {
+            padding: 0 5px;
+        }
+    }
+
+    &--date-selector-month-container {
+        display: table;
+        width: 100%;
+    }
+
+    &--date-selector-month {
+        position: relative;
+        display: table-cell;
+        text-align: center;
+        width: 100%;
+    }
+
+    &--date-selector-week-day {
+        color: $quaternary-gray;
+        display: inline-block;
+        height: 38px;
+        line-height: 38px;
+        text-align: center;
+        width: 38px;
+    }
+
+    &--actions {
+        padding: 0 5px;
+        text-align: right;
+    }
+}
+
+.date-selector--month {
+
+    &-enter {
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    &-enter-active {
+        opacity: 1;
+    }
+
+    &-leave {
+        opacity: 1;
+        transition: opacity 0.2s;
+    }
+
+    &-leave-active {
+        opacity: 0;
+    }
+}
+
+.date-picker--date-selector-weeks {
+
+    &.date-selector--month-enter {
+        position: absolute;
+    }
+}

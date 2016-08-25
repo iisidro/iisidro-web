@@ -1,0 +1,64 @@
+@import "sass/globals";
+
+.app-sidebar {
+    position: absolute;
+    height: 100%;
+    overflow-x: hidden;
+    top: 0;
+    width: 0;
+    z-index: 10;
+
+    -webkit-transition: width 0.2s;
+    -moz-transition: width 0.2s;
+    -ms-transition: width 0.2s;
+    -o-transition: width 0.2s;
+    transition: width 0.2s;
+
+    &_activated {
+        width: 250px;
+    }
+
+    &--content {
+        background-color: $quaternary-black;
+        height: inherit;
+        overflow-y: auto;
+        width: 250px;
+    }
+
+    &--profile {
+        width: 100%;
+        padding: 15px 0;
+        background-color: $tertiary-black;
+        border-bottom: 1px solid $secondary-black;
+        
+        &-photo {
+            width: 100px;
+            height: 100px;
+            background-color: $primary-white;
+            border-radius: 10px;
+            margin: 0 auto 15px;
+        }
+
+        &-name,
+        &-email {
+            text-align: center;
+            color: $quaternary-white;
+        }
+
+        &-name {
+            margin-bottom: 5px;
+        }
+    }
+
+    @media (min-width: $screen-sm-min) {
+        //width: 250px;
+    }
+
+    @media (min-width: $screen-md-min) {
+        max-width: $container-md;
+    }
+
+    @media (min-width: $screen-lg-min) {
+        max-width: $container-lg;
+    }
+}
