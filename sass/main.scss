@@ -16,11 +16,15 @@
 html,
 body {
     color: $secondary-black;
-    font-family: "Roboto", Arial, sans-serif;
-    font-size: 14px;
     min-height: 100%;
 }
 
 .clearfix {
     @include clearfix();
+}
+
+
+.md-button.md-block {
+    width: 100%;
+    margin: 0;
 }

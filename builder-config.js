@@ -33,7 +33,8 @@ const config = {
     sync: true,
     templates: {
         src: [
-            'application/templates/**/*.html'
+            'application/templates/**/*.html',
+            'components/**/*.html'
         ],
         dest: 'application'
     }

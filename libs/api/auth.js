@@ -1,3 +1,4 @@
+/*
 // VENDOR LIBS
 const lodash = require('lodash');
 const path = require('path');
@@ -80,3 +81,38 @@ class Auth {
 }
 
 module.exports = Auth;
+*/
+
+module.exports.injectServiceTo = (mod) => {
+    mod.service('Auth', [
+        'API',
+        '$q',
+        function (API, $q) {
+
+            this.login = (config = {}) => {
+                return $q((resolve, reject) => {
+                    API.post({
+                        url: 'authenticate',
+                        data: {
+                            username: config.username,
+                            password: config.password
+                        }
+                    }).then((response) => {
+                        console.log(response);
+
+                        resolve(response);
+
+                        API.setAuthToken(response.data.token);
+                        //Auth.getAuthenticatedUser(callbacks);
+                    }).catch((error) => {
+                        console.log(error);
+
+                        reject(error);
+
+                        //notificationStore.addError(jqXHR.responseJSON);
+                    });
+                });
+            };
+        }
+    ]);
+};

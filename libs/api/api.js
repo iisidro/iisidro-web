@@ -102,18 +102,36 @@ class API extends Storage {
 
 */
 
-module.exports.injectTo = (angularModule) => {
-    angularModule.service('API', [
+module.exports.injectServiceTo = (mod) => {
+    mod.service('API', [
         '$q',
         '$http',
-        function ($q, $http) {
+        'Storage',
+        function ($q, $http, Storage) {
 
-            this.config = {
+            this.defaultConfig = {
                 apiRoot: 'api',
                 contentType: "application/json",
                 dataType: 'json',
                 host: 'https://iisidro-server.herokuapp.com',
                 authToken: null
+            };
+
+            this.initialize = () => {
+                let storedConfig = Storage.get('API');
+
+                if (!this.config) {
+                    this.config = storedConfig || this.defaultConfig;
+
+                    if (!storedConfig) {
+                        this.saveInStorage(this.defaultConfig);
+                    }
+                }
+            };
+
+            this.setAuthToken = (authToken) => {
+                this.config.authToken = authToken;
+                this.saveInStorage();
             };
 
             this.post = (config) => {
@@ -126,6 +144,11 @@ module.exports.injectTo = (angularModule) => {
                 });
             };
 
+            this.saveInStorage = (config) => {
+                Storage.set('API', config || this.config);
+            };
+
+            this.initialize();
         }
     ]);
 };

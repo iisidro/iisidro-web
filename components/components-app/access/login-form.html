@@ -1,0 +1,23 @@
+<form name="loginFormCtrl.loginForm" ng-submit="loginFormCtrl.handleFormSubmit($event)">
+    <div>
+        <md-input-container class="md-block">
+          <label>Usuario</label>
+          <input type="text" name="username" ng-model="loginFormCtrl.user.username" required />
+          <div ng-messages="loginFormCtrl.getErrors('username')" ng-show="loginFormCtrl.showMessages('username')">
+              <div ng-message="required">Debe ingresar un usuario</div>
+          </div>
+        </md-input-container>
+    </div>
+    <div>
+        <md-input-container class="md-block">
+            <label>Contraseña</label>
+            <input type="password" name="password" ng-model="loginFormCtrl.user.password" required minlength="4" md-maxlength="32" />
+            <div ng-messages="loginFormCtrl.getErrors('password')" ng-show="loginFormCtrl.showMessages('password')">
+                <div ng-message="required">Debe ingresar contraseña</div>
+                <div ng-message="minlength">Contraseña debe contener entre 4 y 32 caracteres</div>
+                <div ng-message="md-maxlength">Contraseña debe contener entre 4 y 32 caracteres</div>
+            </div>
+        </md-input-container>
+    </div>
+    <md-button class="md-block md-raised md-primary" ng-disabled="loginFormCtrl.submitting" ng-click="loginFormCtrl.handleFormSubmit($event)">Ingresar</md-button>
+</form>

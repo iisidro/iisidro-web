@@ -1,5 +1,5 @@
-module.exports.injectRouterTo = (angularModule) => {
-    angularModule.config([
+module.exports.injectRouterTo = (mod) => {
+    mod.config([
         '$stateProvider',
         '$urlRouterProvider',
         '$locationProvider',
@@ -16,11 +16,16 @@ module.exports.injectRouterTo = (angularModule) => {
                         }
                     },
                     templateUrl: 'containers/access-container.html',
+                    controller: function () {
+
+                    },
                     url: '/access'
                 })
                 .state('access.login', {
                     url: '/login',
-                    templateUrl:  'views/access/login-view.html'
+                    templateUrl:  'views/access/login-view.html',
+                    controller: 'LoginCtrl',
+                    controllerAs: 'loginCtrl'
                 })
                 .state('access.register', {
                     url: '/register',
