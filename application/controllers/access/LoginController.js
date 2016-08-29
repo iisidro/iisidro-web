@@ -1,5 +1,5 @@
 module.exports.injectControllerTo = (mod) => {
-    mod.controller('LoginCtrl', ['Auth', function (Auth) {
+    mod.controller('LoginCtrl', ['Auth', '$state', function (Auth, $state) {
 
         this.submitting = false;
 
@@ -14,6 +14,8 @@ module.exports.injectControllerTo = (mod) => {
             Auth.login(this.user)
                 .then((response) => {
                     this.submitting = false;
+
+                    $state.go('app');
                 })
                 .catch((error) => {
                     this.submitting = false;

@@ -1,4 +1,18 @@
+// VENDOR LIBS
+const _ = require('lodash');
+
 module.exports.injectRouterTo = (mod) => {
+    mod.constant('stateRestrictions', [
+        {
+            stateName: 'app'
+        },
+        {
+            stateName: 'app.admin'
+        },
+        {
+            stateName: 'access'
+        }
+    ]);
     mod.config([
         '$stateProvider',
         '$urlRouterProvider',
@@ -10,16 +24,18 @@ module.exports.injectRouterTo = (mod) => {
             $stateProvider
                 .state('access', {
                     abstract: true,
-                    resolve: {
-                        user: () => {
-
-                        }
-                    },
+                    url: '/access',
                     templateUrl: 'containers/access-container.html',
-                    controller: function () {
+                    controller: ['Loader', function (Loader) {
+                        this.loaded = Loader.isLoaded();
 
-                    },
-                    url: '/access'
+                        this.handleResourcesLoad = () => {
+                            this.loaded = true;
+                        };
+
+                        Loader.onLoaded(this.handleResourcesLoad);
+                    }],
+                    controllerAs: 'accessCtrl'
                 })
                 .state('access.login', {
                     url: '/login',
@@ -42,13 +58,8 @@ module.exports.injectRouterTo = (mod) => {
             // APP CONFIGURATION
             $stateProvider
                 .state('app', {
-                    url: '/app',
-                    resolve: {
-                        user: () => {
-
-                        }
-                    },
-                    templateUrl: 'views/abstract.html'
+                    url: '/',
+                    templateUrl: 'containers/app-container.html'
                 });
 
             // ADMIN CONFIGURATION
@@ -84,7 +95,7 @@ module.exports.injectRouterTo = (mod) => {
                 });
 
             // ADMIN QUESTIONS FALLBACKS
-            $urlRouterProvider.when(new RegExp('/app/admin/questions*'), '/app/admin/questions/list');
+            $urlRouterProvider.when(new RegExp('/admin/questions*'), '/admin/questions/list');
 
             // ADMIN SURVEYS CONFIGURATION
             $stateProvider
@@ -107,12 +118,35 @@ module.exports.injectRouterTo = (mod) => {
                 });
 
             // ADMIN SURVEYS FALLBACKS
-            $urlRouterProvider.when(new RegExp('/app/admin/surveys*'), '/app/admin/surveys/list');
+            $urlRouterProvider.when(new RegExp('/admin/surveys*'), '/admin/surveys/list');
 
             // ADMIN FALLBACKS
-            $urlRouterProvider.when(new RegExp('/app/admin*'), '/app/admin/dashboard');
+            $urlRouterProvider.when(new RegExp('/admin*'), '/admin/dashboard');
 
-            $urlRouterProvider.otherwise('/app');
+            $urlRouterProvider.otherwise('/');
         }
     ]);
-}
+
+    mod.run([
+        'stateRestrictions',
+        '$rootScope',
+        '$state',
+        function (stateRestrictions, $rootScope, $state) {
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
+                //console.log($state, toState);
+
+                /*
+                let restrictions = _.filter(stateRestrictions, (stateRestriction) => {
+                    return _.includes(toState.name, stateRestriction.stateName);
+                });
+
+                if (restrictions.length) {
+                    event.preventDefault();
+
+                    $state.go(toState.name, toParams, {notify: false});
+                }
+                */
+            });
+        }
+    ]);
+};

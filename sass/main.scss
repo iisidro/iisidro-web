@@ -28,3 +28,11 @@ body {
     width: 100%;
     margin: 0;
 }
+
+.loading {
+    height: 100%;
+
+    &--text {
+        margin-left: 20px;
+    }
+}
