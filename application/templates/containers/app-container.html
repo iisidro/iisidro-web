@@ -1,1 +1,8 @@
-<md-content class="app-container" layout layout-align="center center" ui-view></md-content>
+<md-content class="app-container" layout>
+    <md-sidenav md-is-locked-open="$mdMedia('min-width: 333px')">
+        <md-content layout="column">
+            <menu-list items="appCtrl.items"></menu-list>
+        </md-content>
+    </md-sidenav>
+    <md-content layout ui-view></md-content>
+</md-content>

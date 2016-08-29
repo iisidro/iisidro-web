@@ -15,7 +15,7 @@ module.exports.injectControllerTo = (mod) => {
                 .then((response) => {
                     this.submitting = false;
 
-                    $state.go('app');
+                    $state.go('base.app.admin.dashboard');
                 })
                 .catch((error) => {
                     this.submitting = false;
