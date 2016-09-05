@@ -1,0 +1,31 @@
+<div class="app-header" md-whiteframe="3" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h1>IISIDRO</h1>
+            <span flex></span>
+            <md-menu md-position-mode="target-right target">
+                <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
+                    <md-icon>more_vert</md-icon>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="appCtrl.logout($event)">
+                            <md-icon>exit_to_app</md-icon>
+                            Salir
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+    </md-toolbar>
+</div>
+<div class="app-container" layout>
+    <md-sidenav md-is-locked-open="$mdMedia('min-width: 333px')">
+        <md-content layout="column">
+            <menu-list items="appCtrl.items"></menu-list>
+        </md-content>
+    </md-sidenav>
+    <md-content class="app-container--content-wrapper" layout flex>
+        <div class="app-container--content" ui-view></div>
+    </md-content>
+</div>

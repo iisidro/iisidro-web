@@ -1,5 +1,5 @@
 module.exports = {
-    'ERROR-MESSAGE_UNAUTHORIZED-LOGIN': 'Email o contraseña incorrectos, intente nuevamente.',
+    'ERROR-MESSAGE_UNAUTHORIZED-LOGIN': 'Su acceso fue denegado, por favor intente nuevamente',
 
     'ERROR-TITLE_UNAUTHORIZED-LOGIN': 'Acceso denegado',
 

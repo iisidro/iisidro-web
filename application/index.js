@@ -1,6 +1,7 @@
-// APPLICATION ROUTER
-const router = require('application/router');
+const app = require('application/app');
 
-router.run(document.getElementById('mount-point'));
-
-const surveyStore = require('application/stores/surveys-store');
+require('application/templates').injectTemplatesTo(app);
+require('application/services').injectServicesTo(app);
+require('application/controllers').injectControllersTo(app);
+require('application/components').injectComponentsTo(app);
+require('application/router').injectRouterTo(app);

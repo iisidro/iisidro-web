@@ -1,61 +1,139 @@
-module.exports = (function () {
-    // VENDOR LIBS
-    const React = require('react');
-    const ReactRouter = require('react-router');
-    const Router = ReactRouter.Router;
-    const render = require('react-dom').render;
-    const browserHistory = ReactRouter.browserHistory;
+// VENDOR LIBS
+const _ = require('lodash');
 
-    // ROUTE TYPES
-    const Route = ReactRouter.Route;
-    const IndexRoute = ReactRouter.IndexRoute;
-    const IndexRedirect = ReactRouter.IndexRedirect;
-    const Redirect = Router.Redirect;
+module.exports.injectRouterTo = (mod) => {
+    mod.config([
+        '$stateProvider',
+        '$urlRouterProvider',
+        '$locationProvider',
+        ($stateProvider, $urlRouterProvider, $locationProvider) => {
+            $locationProvider.html5Mode(true);
 
-    const views = require('application/views');
-    const containers = require('application/containers');
+            $stateProvider
+                .state('base', {
+                    abstract: true,
+                    url: '',
+                    templateUrl: 'containers/base-container.html',
+                    controller: 'BaseCtrl',
+                    controllerAs: 'baseCtrl'
+                });
 
-    const ModuleRouter = function () {
-        this.routes = (
-            <Route path='/' component={containers.App}>
-                <Route path='app' component={containers.AppContainer}>
-                    <Route path='admin' component={containers.AdminContainer}>
-                        <Route path='dashboard' component={views.AdminDashboardView} />
-                        <Route path='questions' component={views.AdminQuestionsView}>
-                            <IndexRoute component={views.QuestionsListView} />
-                            <Route path="new" component={views.QuestionCreateEditView} />
-                            <Route path=":questionId" component={views.QuestionCreateEditView} />
-                        </Route>
-                        <Route path='surveys' component={views.AdminSurveysView}>
-                            <IndexRoute component={views.SurveysListView} />
-                            <Route path="new" component={views.SurveyCreateEditView} />
-                            <Route path=":surveyId" component={views.SurveyCreateEditView} />
-                        </Route>
+            // ACCESS CONFIGURATION
+            $stateProvider
+                .state('base.access', {
+                    abstract: true,
+                    url: '/access',
+                    templateUrl: 'containers/access-container.html',
+                    controller: 'AccessCtrl'
+                })
+                .state('base.access.login', {
+                    url: '/login',
+                    templateUrl:  'views/access/login-view.html',
+                    controller: 'LoginCtrl',
+                    controllerAs: 'loginCtrl'
+                })
+                .state('base.access.register', {
+                    url: '/register',
+                    templateUrl:  'views/access/register-view.html'
+                })
+                .state('base.access.recovery', {
+                    url: '/recovery',
+                    templateUrl:  'views/access/recovery-view.html'
+                });
 
-                        <IndexRedirect to='/app/admin/dashboard' />
-                    </Route>
-                    <IndexRoute component={containers.CommonUserContainer}>
-                        <Route path='dashboard' component={views.AdminDashboardView} />
+            // ACCESS FALLBACKS
+            $urlRouterProvider.when(new RegExp('/access*'), '/access/login');
 
-                        <IndexRedirect to='/app/admin/dashboard' />
-                    </IndexRoute>
-                </Route>
-                <Route path='access' component={containers.AccessContainer}>
-                    <Route path='login' component={views.LoginView} />
-                    <Route path='register' component={views.RegisterView} />
-                    <Route path='recovery' component={views.RecoveryView} />
+            // APP CONFIGURATION
+            $stateProvider
+                .state('base.app', {
+                    url: '/app',
+                    templateUrl: 'containers/app-container.html',
+                    controller: 'AppCtrl',
+                    controllerAs: 'appCtrl'
+                });
 
-                    <IndexRedirect to='/access/login' />
-                </Route>
+            // ADMIN CONFIGURATION
+            $stateProvider
+                .state('base.app.admin', {
+                    abstract: true,
+                    url: '/admin',
+                    templateUrl: 'views/abstract.html'
+                })
+                .state('base.app.admin.dashboard', {
+                    url: '/dashboard',
+                    templateUrl: 'views/app/admin/admin-dashboard-view.html'
+                });
 
-                <IndexRedirect to='/app' />
-            </Route>
-        );
-    };
+            // ADMIN QUESTIONS CONFIGURATION
+            $stateProvider
+                .state('base.app.admin.questions', {
+                    abstract: true,
+                    url: '/questions',
+                    templateUrl: 'views/app/admin/questions/questions-view.html'
+                })
+                .state('base.app.admin.questions.list', {
+                    url: '/list',
+                    templateUrl: 'views/app/admin/questions/questions-list-view.html',
+                    controller: 'QuestionsListCtrl',
+                    controllerAs: 'questionsListCtrl'
+                })
+                .state('base.app.admin.questions.create', {
+                    url: '/create',
+                    templateUrl: 'views/app/admin/questions/question-create-edit-view.html',
+                    controller: 'QuestionCreateEditCtrl',
+                    controllerAs: 'questionCreateEditCtrl'
+                })
+                .state('base.app.admin.questions.edit', {
+                    url: '/edit/:questionId',
+                    templateUrl: 'views/app/admin/questions/question-create-edit-view.html'
+                });
 
-    ModuleRouter.prototype.run = function (mountElement) {
-        render(<Router history={browserHistory} routes={this.routes} />, mountElement);
-    };
+            // ADMIN QUESTIONS FALLBACKS
+            $urlRouterProvider.when(new RegExp('/app/admin/questions*'), '/app/admin/questions/list');
 
-    return new ModuleRouter();
-})();
+            // ADMIN SURVEYS CONFIGURATION
+            $stateProvider
+                .state('base.app.admin.surveys', {
+                    abstract: true,
+                    url: '/surveys',
+                    templateUrl: 'views/app/admin/surveys/surveys-view.html'
+                })
+                .state('base.app.admin.surveys.list', {
+                    url: '/list',
+                    templateUrl: 'views/app/admin/surveys/surveys-list-view.html',
+                    controller: 'SurveysListCtrl',
+                    controllerAs: 'surveysListCtrl'
+                })
+                .state('base.app.admin.surveys.create', {
+                    url: '/create',
+                    templateUrl: 'views/app/admin/surveys/survey-create-edit-view.html',
+                    controller: 'SurveyCreateEditCtrl',
+                    controllerAs: 'surveyCreateEditCtrl'
+                })
+                .state('base.app.admin.surveys.edit', {
+                    url: '/edit/:surveyId',
+                    templateUrl: 'views/app/admin/surveys/survey-create-edit-view.html'
+                });
+
+            // ADMIN SURVEYS FALLBACKS
+            $urlRouterProvider.when(new RegExp('/app/admin/surveys*'), '/app/admin/surveys/list');
+
+            // ADMIN FALLBACKS
+            $urlRouterProvider.when(new RegExp('/app/admin*'), '/app/admin/dashboard');
+
+            $urlRouterProvider.otherwise('/app');
+        }
+    ]);
+
+    mod.run([
+        'Auth',
+        '$rootScope',
+        '$state',
+        function (Auth, $rootScope, $state) {
+            $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+                console.log('err', error);
+            });
+        }
+    ]);
+};

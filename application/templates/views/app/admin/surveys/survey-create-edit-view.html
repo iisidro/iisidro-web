@@ -1,0 +1,18 @@
+<form name="surveyCreateEditCtrl.surveyForm" ng-init="surveyCreateEditCtrl.initialize()" novalidate>
+    <div layout>
+        <md-input-container flex>
+            <label>Titulo de la encuesta</label>
+            <input name="title" ng-model="surveyCreateEditCtrl.survey.title" required>
+            <div ng-messages="surveyCreateEditCtrl.getErrors('title')" ng-show="surveyCreateEditCtrl.showMessages('title')">
+                <div ng-message="required">Debe ingresar un titulo para la encuesta</div>
+            </div>
+        </md-input-container>
+    </div>
+    <div>
+        <md-button ng-disabled="surveyCreateEditCtrl.submitting"
+            ng-click="surveyCreateEditCtrl.handleFormSubmit($event)"
+            type="submit">
+            Guardar
+        </md-button>
+    </div>
+</form>

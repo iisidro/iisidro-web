@@ -1,42 +1,34 @@
 'use strict';
 
 // VENDOR LIBS
-const fs = require('fs');
-const url = require('url');
-const path = require('path');
 const browserSync = require('browser-sync');
-const gulp = require('gulp');
-const config = require('builder/config');
+const config = requireFromModule('config');
+const fs = require('fs');
+const path = require('path');
+const url = require('url');
 
 gulp.task('browser-sync', function() {
+    let host = _.get(config.server, 'host', 'localhost');
+    let port = _.get(config.server, 'port', '8080');
+    let defaultIndexFile = '/' + _.get(config.server, 'defaultIndexFile', 'index.html');
+
     browserSync.init({
+        port: port,
         server: {
-            baseDir: config.dist,
+            baseDir: _.get(config, 'dist', 'dist'),
             middleware (req, res, next) {
                 let fileName = url.parse(req.url);
 
-                fileName = fileName.href.split(url.parse(req.url).search).join('');
-                fileName = fileName.substr(fileName.lastIndexOf('/'));
+                fileName = fileName.href.split(fileName.search).join('');
 
-                const defaultFiles = {
-                    '': '/index.html',
-                    '/': '/index.html',
-                    '.html': fileName,
-                    '.css': path.join('/assets/css', fileName),
-                    '.js': path.join('/scripts', fileName),
-                    '.eot': path.join('/assets/fonts', fileName),
-                    '.woff': path.join('/assets/fonts', fileName),
-                    '.ttf': path.join('/assets/fonts', fileName)
-                };
-
-                req.url = defaultFiles[path.extname(fileName)];
+                try {
+                    fs.statSync(path.join(config.root, config.dist + fileName));
+                } catch (error) {
+                    req.url = defaultIndexFile;
+                }
 
                 return next();
             }
-        },
-        port: config.port,
-        ui: {
-            port: '3000'
         }
     });
 });

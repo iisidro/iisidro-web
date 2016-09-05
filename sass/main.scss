@@ -1,5 +1,8 @@
-@import "sass/base";
+@import "sass/partials/reset";
+@import "sass/mixins/clearfix";
 @import "sass/globals";
+
+@import 'node_modules/angular-material/angular-material.scss';
 
 @font-face {
     font-family: 'Material Icons';
@@ -12,12 +15,19 @@
 
 html,
 body {
+    background-color: $primary-gray;
     color: $secondary-black;
-    font-family: "Roboto", Arial, sans-serif;
-    font-size: 14px;
     min-height: 100%;
 }
 
 .clearfix {
     @include clearfix();
+}
+
+.loading {
+    height: 100%;
+
+    &--text {
+        margin-left: 20px;
+    }
 }

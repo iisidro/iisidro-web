@@ -1,0 +1,34 @@
+<table ng-class="table">
+    <thead>
+        <tr>
+            <th class="table--header-cell table--cell" ng-if="tableCtrl.selectable">
+                <md-checkbox></md-checkbox>
+            </th>
+            <th ng-repeat="column in tableCtrl.columns" class="table--header-cell table--cell" ng-bind="column.label"></th>
+            <th class="table--header-cell table--cell" ng-if="tableCtrl.actions">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="contentRow in tableCtrl.content">
+            <td class="table--cell" ng-if="tableCtrl.selectable"><md-checkbox ng-model="contentRow.selected"></md-checkbox></td>
+            <td ng-repeat="column in tableCtrl.columns" class="table--cell" ng-bind="tableCtrl.getRowData(contentRow, column.key)">
+
+            </td>
+            <td class="table--cell" ng-if="tableCtrl.actions" flex="1">
+                <md-menu>
+                    <md-button class="md-icon-button" aria-label="Actions" ng-click="$mdOpenMenu($event)">
+                        <md-icon>more_vert</md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item ng-repeat="action in tableCtrl.actions">
+                            <md-button ng-click="action.onCall(contentRow)" ng-bind="action.label">
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </td>
+        </tr>
+    </tbody>
+</table>

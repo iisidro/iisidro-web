@@ -1,0 +1,8 @@
+<div ng-init="surveysListCtrl.initialize()">
+    <md-button class="md-primary md-raised" ui-sref="base.app.admin.surveys.create">
+        Crear Encuesta
+    </md-button>
+    <table content="surveysListCtrl.surveys"
+            columns="surveysListCtrl.columns"
+            actions="surveysListCtrl.actions"></table>
+</div>

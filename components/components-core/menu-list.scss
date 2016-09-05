@@ -1,0 +1,13 @@
+.menu-list {
+    padding: 15px 10px;
+    margin: 0;
+
+    &:before {
+        min-height: 36px;
+    }
+
+    &--item-icon {
+        color: inherit;
+        margin: 0 16px 0 10px;
+    }
+}
