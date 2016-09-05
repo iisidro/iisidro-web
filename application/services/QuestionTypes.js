@@ -10,7 +10,7 @@ module.exports.injectServiceTo = (mod) => {
                         url: 'tipo-preguntas'
                     })
                     .then((response) => {
-                        resolve(response);
+                        resolve(response.data);
                     })
                     .catch((error) => {
                         reject(error);

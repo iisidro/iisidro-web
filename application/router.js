@@ -81,8 +81,8 @@ module.exports.injectRouterTo = (mod) => {
                 .state('base.app.admin.questions.create', {
                     url: '/create',
                     templateUrl: 'views/app/admin/questions/question-create-edit-view.html',
-                    controller: 'QuestionsCreateEditCtrl',
-                    controllerAs: 'questionsCreateEditCtrl'
+                    controller: 'QuestionCreateEditCtrl',
+                    controllerAs: 'questionCreateEditCtrl'
                 })
                 .state('base.app.admin.questions.edit', {
                     url: '/edit/:questionId',
@@ -101,11 +101,15 @@ module.exports.injectRouterTo = (mod) => {
                 })
                 .state('base.app.admin.surveys.list', {
                     url: '/list',
-                    templateUrl: 'views/app/admin/surveys/surveys-list-view.html'
+                    templateUrl: 'views/app/admin/surveys/surveys-list-view.html',
+                    controller: 'SurveysListCtrl',
+                    controllerAs: 'surveysListCtrl'
                 })
                 .state('base.app.admin.surveys.create', {
                     url: '/create',
-                    templateUrl: 'views/app/admin/surveys/survey-create-edit-view.html'
+                    templateUrl: 'views/app/admin/surveys/survey-create-edit-view.html',
+                    controller: 'SurveyCreateEditCtrl',
+                    controllerAs: 'surveyCreateEditCtrl'
                 })
                 .state('base.app.admin.surveys.edit', {
                     url: '/edit/:surveyId',

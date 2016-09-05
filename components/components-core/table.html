@@ -13,7 +13,7 @@
     <tbody>
         <tr ng-repeat="contentRow in tableCtrl.content">
             <td class="table--cell" ng-if="tableCtrl.selectable"><md-checkbox ng-model="contentRow.selected"></md-checkbox></td>
-            <td ng-repeat="column in tableCtrl.columns" class="table--cell" ng-bind="contentRow[column.key]">
+            <td ng-repeat="column in tableCtrl.columns" class="table--cell" ng-bind="tableCtrl.getRowData(contentRow, column.key)">
 
             </td>
             <td class="table--cell" ng-if="tableCtrl.actions" flex="1">

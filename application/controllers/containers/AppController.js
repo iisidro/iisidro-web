@@ -25,6 +25,20 @@ module.exports.injectControllerTo = (mod) => {
                     sref: 'base.app.admin.surveys.list'
                 }
             ];
+
+            this.logout = () => {
+                Auth.logout();
+
+                this.redirectToAccess();
+            };
+
+            this.redirectToAccess = () => {
+                $state.go('base.access.login');
+            };
+
+            if (!user) {
+                this.redirectToAccess();
+            }
         }
     ]);
 };

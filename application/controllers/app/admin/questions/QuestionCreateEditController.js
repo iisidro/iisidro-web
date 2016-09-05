@@ -1,5 +1,5 @@
 module.exports.injectControllerTo = (mod) => {
-    mod.controller('QuestionsCreateEditCtrl', [
+    mod.controller('QuestionCreateEditCtrl', [
         'Questions',
         'QuestionTypes',
         '$state',
@@ -7,8 +7,8 @@ module.exports.injectControllerTo = (mod) => {
 
             this.initialize = () => {
                 QuestionTypes.getInstances()
-                    .then(() => {
-
+                    .then((questionTypes) => {
+                        this.questionTypes = questionTypes;
                     })
                     .catch(() => {
 
@@ -34,24 +34,29 @@ module.exports.injectControllerTo = (mod) => {
                 form.$setSubmitted();
 
                 if (form.$valid) {
+                    Questions.createInstance({
+                        question: this.question
+                    })
+                    .then((question) => {
+                        console.log(question);
 
-                    if (this.onFormSubmit) {
-                        this.onFormSubmit();
-                    }
+                        this.goBack();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
                 }
+            };
+
+            this.goBack = () => {
+                $state.go('base.app.admin.questions.list');
             };
 
             this.question = {
                 type: '',
                 statement: ''
             };
-
-            this.questionTypes = [
-                {
-                    label: 'Texto',
-                    value: 'text'
-                }
-            ];
+            this.questionTypes = [];
         }
     ]);
 };

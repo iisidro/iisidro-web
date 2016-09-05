@@ -11,8 +11,8 @@ module.exports.injectServiceTo = (mod) => {
                         .then((response) => {
                             resolve(response);
                         })
-                        .catch(() => {
-                            reject(error);
+                        .catch((error) => {
+                            resolve(error);
                         });
                 });
             };
@@ -38,27 +38,18 @@ module.exports.injectServiceTo = (mod) => {
                             password: config.password
                         }
                     }).then((response) => {
-                        console.log(response);
-
                         API.setAuthToken(response.data.token);
 
-                        resolve(response);
-
-                        /*
                         this.getAuthenticatedUser()
-                            .then((getAuthenticatedUserResponse) => {
-                                console.log(getAuthenticatedUserResponse);
-                                resolve(response);
+                            .then((user) => {
+                                resolve(user);
                             })
                             .catch((error) => {
                                 console.log(error);
 
                                 reject(error);
                             });
-                        */
                     }).catch((error) => {
-                        console.log(error);
-
                         reject(error);
 
                         //notificationStore.addError(jqXHR.responseJSON);
@@ -80,19 +71,23 @@ module.exports.injectServiceTo = (mod) => {
                             url: 'account',
                             data: {}
                         }).then((response) => {
-                            resolve(response);
+                            let user = response.data;
+
+                            this.setUser(user);
+
+                            resolve(user);
                         }).catch((error) => {
-                            //reject(error);
-
-                            this.setUser({username: 'andres'});
-                            resolve(this.user);
-
-                            //notificationStore.addError(jqXHR.responseJSON);
+                            reject(error);
                         });
                     });
                 }
 
                 return promise;
+            };
+
+            this.logout = () => {
+                API.setAuthToken(null);
+                this.user = null;
             };
         }
     ]);

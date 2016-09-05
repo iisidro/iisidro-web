@@ -1,5 +1,5 @@
 module.exports.injectServiceTo = (mod) => {
-    mod.service('Questions', [
+    mod.service('Surveys', [
         'API',
         '$q',
         function (API, $q) {
@@ -7,7 +7,7 @@ module.exports.injectServiceTo = (mod) => {
             this.getInstances = () => {
                 return $q((resolve, reject) => {
                     API.get({
-                        url: 'preguntas'
+                        url: 'encuestas'
                     })
                     .then((response) => {
                         resolve(response.data);
@@ -19,14 +19,13 @@ module.exports.injectServiceTo = (mod) => {
             };
 
             this.createInstance = (config) => {
-                let question = config.question;
+                let survey = config.survey;
 
                 return $q((resolve, reject) => {
                     API.post({
-                        url: 'preguntas',
+                        url: 'encuestas',
                         data: {
-                            nombre: question.statement,
-                            tipo: question.type
+                            nombre: survey.title
                         }
                     })
                     .then((response) => {
@@ -41,7 +40,7 @@ module.exports.injectServiceTo = (mod) => {
             this.deleteInstance = (config = {}) => {
                 return $q((resolve, reject) => {
                     API.delete({
-                        url: 'preguntas/' + config.questionId
+                        url: 'encuestas/' + config.surveyId
                     })
                     .then((response) => {
                         resolve(response);

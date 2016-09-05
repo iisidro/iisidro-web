@@ -12,7 +12,9 @@ module.exports.injectComponentTo = function (mod) {
             onSelect: '&'
         },
         controller: [function () {
-
+            this.getRowData = (rowData, key) => {
+                return _.get(rowData, key);
+            }
         }],
         controllerAs: 'tableCtrl'
     });

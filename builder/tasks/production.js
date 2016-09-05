@@ -3,9 +3,11 @@
 // VENDOR LIBS
 const runSequence = require('run-sequence');
 
-gulp.task('default', () => {
+gulp.task('default', (cb) => {
     let preBuildTasks = ['clean'];
-    let buildTasks = ['fonts', 'html', 'templates', 'scripts', 'styles'];
+    let buildTasks = ['icons', 'fonts', 'html', 'templates', 'scripts', 'styles'];
 
-    runSequence(preBuildTasks, buildTasks);
+    global.production = true;
+
+    return runSequence(preBuildTasks, buildTasks, cb);
 });
