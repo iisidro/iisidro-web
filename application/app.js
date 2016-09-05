@@ -14,4 +14,16 @@ const app = angular.module('iisidro', [
 
 app.constant('storagePrefix', 'IISIDRO_');
 
+app.config(['$mdThemingProvider', function ($mdThemingProvider) {
+    $mdThemingProvider
+        .theme('default')
+        .primaryPalette('indigo')
+        .accentPalette('pink')
+        .warnPalette('red')
+        .backgroundPalette('grey', {
+            default: '50'
+        });
+
+}]);
+
 module.exports = app;

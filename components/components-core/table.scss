@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+    font-size: 12px;
+    border-collapse: separate;
+}
+
+.table {
+
+    &--header-cell {
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: 700;
+        white-space: nowrap;
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    &--cell {
+        border: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        padding: 15px;
+    }
+}

@@ -68,10 +68,11 @@ module.exports.injectServiceTo = (mod) => {
 
             this.getAuthenticatedUser = (config) => {
                 let promise;
+                let user = this.getUser();
 
-                if (this.user) {
+                if (user) {
                     promise = $q((resolve) => {
-                        resolve(this.user);
+                        resolve(user);
                     });
                 } else {
                     promise = $q((resolve, reject) => {

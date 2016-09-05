@@ -1,3 +1,41 @@
-<div>
-    question create edit view
-</div>
+<form layout="column" name="questionsCreateEditCtrl.questionForm" ng-init="questionsCreateEditCtrl.initialize()" novalidate>
+    <div layout>
+        <md-input-container flex>
+            <label>Texto de la pregunta</label>
+            <input name="statement" ng-model="questionsCreateEditCtrl.question.statement" required>
+            <div ng-messages="questionsCreateEditCtrl.getErrors('statement')" ng-show="questionsCreateEditCtrl.showMessages('statement')">
+                <div ng-message="required">Debe ingresar un texto para la pregunta</div>
+            </div>
+        </md-input-container>
+        <md-input-container flex>
+            <label>Tipo</label>
+            <md-select name="type" ng-model="questionsCreateEditCtrl.question.type" required>
+                <md-option ng-repeat="questionType in questionsCreateEditCtrl.questionTypes" ng-value="questionType.value">
+                    {{questionType.label}}
+                </md-option>
+            </md-select>
+            <div ng-messages="questionsCreateEditCtrl.getErrors('type')" ng-show="questionsCreateEditCtrl.showMessages('type')">
+                <div ng-message="required">Debe seleccionar un tipo para la pregunta</div>
+            </div>
+        </md-input-container>
+    </div>
+    <div layout ng-if="questionsCreateEditCtrl.question.type === 'text'">
+        <md-input-container flex="50">
+            <label>Longitud maxima</label>
+            <input name="maxLength" ng-model="questionsCreateEditCtrl.question.maxLength" required min="0" max="255" type="number">
+            <div ng-messages="questionsCreateEditCtrl.getErrors('maxLength')" ng-show="questionsCreateEditCtrl.showMessages('maxLength')">
+                <div ng-message="required">Debe ingresar una longitud maxima para la pregunta</div>
+                <div ng-message="min">La longitud maxima debe ser un numero positivo</div>
+                <div ng-message="max">La longitud maxima no puede ser mayor a 255</div>
+            </div>
+        </md-input-container>
+    </div>
+    <md-datepicker ng-model="patientCreateEditReviewCtrl.date"></md-datepicker>
+    <div>
+        <md-button ng-disabled="questionsCreateEditCtrl.submitting"
+            ng-click="questionsCreateEditCtrl.handleFormSubmit($event)"
+            type="submit">
+            Guardar
+        </md-button>
+    </div>
+</form>

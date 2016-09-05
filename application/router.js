@@ -74,11 +74,15 @@ module.exports.injectRouterTo = (mod) => {
                 })
                 .state('base.app.admin.questions.list', {
                     url: '/list',
-                    templateUrl: 'views/app/admin/questions/questions-list-view.html'
+                    templateUrl: 'views/app/admin/questions/questions-list-view.html',
+                    controller: 'QuestionsListCtrl',
+                    controllerAs: 'questionsListCtrl'
                 })
                 .state('base.app.admin.questions.create', {
                     url: '/create',
-                    templateUrl: 'views/app/admin/questions/question-create-edit-view.html'
+                    templateUrl: 'views/app/admin/questions/question-create-edit-view.html',
+                    controller: 'QuestionsCreateEditCtrl',
+                    controllerAs: 'questionsCreateEditCtrl'
                 })
                 .state('base.app.admin.questions.edit', {
                     url: '/edit/:questionId',

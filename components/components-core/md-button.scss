@@ -1,0 +1,24 @@
+.md-button {
+    margin: 0;
+
+    &.md-block {
+        width: 100%;
+    }
+
+    &_sidebar {
+        color: #616161;
+        margin: 0;
+        text-align: left;
+        text-transform: none;
+        width: 100%;
+    }
+
+    &_active {
+
+        &.md-button_sidebar {
+            background-color: rgba(158, 158, 158, 0.4);
+            color: #212121;
+            font-weight: bold;
+        }
+    }
+}

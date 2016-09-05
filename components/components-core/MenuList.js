@@ -7,8 +7,10 @@ module.exports.injectComponentTo = function (mod) {
         bindings: {
             items: '='
         },
-        controller: [function () {
-            console.log(this.items);
+        controller: ['$state', function ($state) {
+            this.isActiveRoute = (state) => {
+                return $state.includes(state);
+            };
         }],
         controllerAs: 'menuListCtrl'
     });

@@ -1,4 +1,4 @@
-<md-content class="base-container" ui-view ng-if="baseCtrl.isLoaded()"></md-content>
+<div class="base-container" ui-view ng-if="baseCtrl.isLoaded()" layout="column"></div>
 <div class="loading" ng-if="!baseCtrl.isLoaded()" layout layout-align="center center">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     <span class="loading--text">Loading</span>

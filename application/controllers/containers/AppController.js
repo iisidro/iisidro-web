@@ -7,13 +7,22 @@ module.exports.injectControllerTo = (mod) => {
 
             this.items = [
                 {
-                    title: 'Inicio'
+                    icon: 'dashboard',
+                    label: 'Inicio',
+                    rootState: 'base.app.admin.dashboard',
+                    sref: 'base.app.admin.dashboard'
                 },
                 {
-                    title: 'Preguntas'
+                    icon: 'list',
+                    label: 'Preguntas',
+                    rootState: 'base.app.admin.questions',
+                    sref: 'base.app.admin.questions.list'
                 },
                 {
-                    title: 'Encuestas'
+                    icon: 'list',
+                    label: 'Encuestas',
+                    rootState: 'base.app.admin.surveys',
+                    sref: 'base.app.admin.surveys.list'
                 }
             ];
         }

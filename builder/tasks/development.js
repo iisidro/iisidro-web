@@ -5,7 +5,7 @@ const runSequence = require('run-sequence');
 
 gulp.task('development', (cb) => {
     let preBuildTasks = ['clean'];
-    let buildTasks = ['fonts', 'html', 'templates', 'scripts', 'styles'];
+    let buildTasks = ['icons', 'fonts', 'html', 'templates', 'scripts', 'styles'];
     let watcherTasks = ['watch'];
 
     global.production = false;

@@ -15,18 +15,13 @@
 
 html,
 body {
+    background-color: $primary-gray;
     color: $secondary-black;
     min-height: 100%;
 }
 
 .clearfix {
     @include clearfix();
-}
-
-
-.md-button.md-block {
-    width: 100%;
-    margin: 0;
 }
 
 .loading {

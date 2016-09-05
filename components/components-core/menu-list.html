@@ -1,5 +1,8 @@
-<md-list>
-    <md-list-item ng-repeat="item in menuListCtrl.items">
-        <md-button class="md-block md-primary" ng-bind="item.title"></md-button>
-    </md-list-item>
-</md-list>
+<ul class="menu-list">
+    <li ng-repeat="item in menuListCtrl.items" class="menu-list--item">
+        <md-button ng-class="['md-button_sidebar', {'md-button_active': menuListCtrl.isActiveRoute(item.rootState)}]" ui-sref="{{item.sref}}">
+            <md-icon class="menu-list--item-icon" ng-bind="item.icon"></md-icon>
+            <span class="menu-list--item-label" ng-bind="item.label"></span>
+        </md-button>
+    </li>
+</ul>

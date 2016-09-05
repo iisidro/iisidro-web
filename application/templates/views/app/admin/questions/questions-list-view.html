@@ -1,3 +1,9 @@
-<div>
-    questions list view
+<div ng-init="questionsListCtrl.initialize()">
+    <md-button class="md-primary md-raised" ui-sref="base.app.admin.questions.create">
+        Crear pregunta
+    </md-button>
+    <table content="questionsListCtrl.questions"
+            columns="questionsListCtrl.columns"
+            actions="questionsListCtrl.actions"
+            on-select="questionsListCtrl.onSelect()"></table>
 </div>
