@@ -62,12 +62,10 @@ module.exports.injectControllerTo = (mod) => {
                 }
             ];
             this.actions = [
-                /*
                 {
                     label: 'Editar',
                     onCall: this.editQuestion
                 },
-                */
                 {
                     label: 'Eliminar',
                     onCall: this.deleteQuestion
