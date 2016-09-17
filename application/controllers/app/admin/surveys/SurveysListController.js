@@ -19,10 +19,11 @@ module.exports.injectControllerTo = (mod) => {
                     });
             };
 
-            this.editSurvey = (question) => {
-                $state.go('base.app.admin.surveys.edit', {
-                    questionId: '123'
-                });
+            this.editSurvey = (survey) => {
+                $state.go('base.app.admin.surveys.edit', Surveys.getInstance({
+                        surveyId: survey.id
+                    });
+                );
             };
 
             this.deleteSurvey = (survey) => {
