@@ -1,7 +1,7 @@
 <form name="sectionCreateEditCtrl.sectionForm" ng-init="sectionCreateEditCtrl.initialize()" novalidate>
     <div layout>
         <md-input-container flex>
-            <label>Titulo de la encuesta</label>
+            <label>Titulo de la Sección</label>
             <input name="title" ng-model="sectionCreateEditCtrl.section.title" required>
             <div ng-messages="sectionCreateEditCtrl.getErrors('title')" ng-show="sectionCreateEditCtrl.showMessages('title')">
                 <div ng-message="required">Debe ingresar un titulo para la sección</div>
