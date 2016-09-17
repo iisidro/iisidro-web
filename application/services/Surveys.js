@@ -37,6 +37,20 @@ module.exports.injectServiceTo = (mod) => {
                 });
             };
 
+            this.getInstance = (config = {}) => {
+                return $q((resolve, reject) =>{
+                    API.get({
+                        url: 'encuestas/' + config.surveyId
+                    })
+                    .then((response) =>{
+                        resolve(response);
+                    })
+                    .catch((error) =>{
+                        reject(error);
+                    });
+                });
+            }
+
             this.deleteInstance = (config = {}) => {
                 return $q((resolve, reject) => {
                     API.delete({
