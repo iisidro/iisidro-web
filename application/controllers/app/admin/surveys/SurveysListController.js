@@ -58,12 +58,10 @@ module.exports.injectControllerTo = (mod) => {
                 }
             ];
             this.actions = [
-                /*
                 {
                     label: 'Editar',
                     onCall: this.editSurvey
                 },
-                */
                 {
                     label: 'Eliminar',
                     onCall: this.deleteSurvey
