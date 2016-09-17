@@ -20,9 +20,11 @@ module.exports.injectControllerTo = (mod) => {
             };
 
             this.editQuestion = (question) => {
-                $state.go('base.app.admin.questions.edit', {
-                    questionId: '123'
-                });
+                $state.go('base.app.admin.questions.edit', Questions.getInstance(
+                    {
+                        questionId: question.id
+                    }));
+                }
             };
 
             this.deleteQuestion = (question) => {
