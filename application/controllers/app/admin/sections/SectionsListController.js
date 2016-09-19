@@ -1,43 +1,45 @@
 module.exports.injectControllerTo = (mod) => {
-    mod.controller('SurveysListCtrl', [
-        'Surveys',
+    mod.controller('SectionsListCtrl', [
+        'Sections',
         '$state',
         '$mdDialog',
-        function (Surveys, $state, $mdDialog) {
+        function (Sections, $state, $mdDialog) {
 
             this.initialize = () => {
-                this.loadSurveys();
+                this.loadSections();
             };
 
-            this.loadSurveys = () => {
-                Surveys.getInstances()
-                    .then((surveys) => {
-                        this.surveys = surveys;
+            this.loadSections = () => {
+                Sections.getInstances()
+                    .then((sections) => {
+                        this.Sections = sections;
                     })
                     .catch((error) => {
 
                     });
             };
 
-            this.editSurvey = (survey) => {
-                $state.go('base.app.admin.surveys.edit', {surveyId: survey.id}
+            this.editSection = (section) => {
+                $state.go('base.app.admin.section.edit', Sections.getInstance({
+                        sectionId: section.id
+                    });
                 );
             };
 
-            this.deleteSurvey = (survey) => {
+            this.deleteSection = (section) => {
                 var deleteDialog = $mdDialog.confirm()
-                    .title('Desea eliminar la siguiente encuesta?')
+                    .title('Desea eliminar la siguiente sección?')
                     .targetEvent(event)
                     .ok('SI')
                     .cancel('NO');
 
                 $mdDialog.show(deleteDialog)
                     .then(() => {
-                        Surveys.deleteInstance({
-                            surveyId: survey.id
+                        Sections.deleteInstance({
+                            sectionId: section.id
                         })
                         .then((response) => {
-                            this.loadSurveys();
+                            this.loadSections();
                         })
                         .catch(() => {
 
@@ -45,11 +47,15 @@ module.exports.injectControllerTo = (mod) => {
                     });
             };
 
-            this.surveys = [];
+            this.sections = [];
             this.columns = [
                 {
-                    key: 'nombre',
+                    key: 'nombre_pregunta',
                     label: 'Nombre'
+                },
+                {
+                    key: 'tipo.nombre_pregunta',
+                    label: 'Tipo'
                 },
                 {
                     key: 'fecha_hora_creacion',
@@ -59,11 +65,11 @@ module.exports.injectControllerTo = (mod) => {
             this.actions = [
                 {
                     label: 'Editar',
-                    onCall: this.editSurvey
+                    onCall: this.editSection
                 },
                 {
                     label: 'Eliminar',
-                    onCall: this.deleteSurvey
+                    onCall: this.deleteSection
                 }
             ];
         }

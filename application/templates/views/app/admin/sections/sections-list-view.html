@@ -1,0 +1,8 @@
+<div ng-init="sectionsListCtrl.initialize()">
+    <md-button class="md-primary md-raised" ui-sref="base.app.admin.sections.create">
+        Crear Sección
+    </md-button>
+    <table content="sectionsListCtrl.sections"
+            columns="sectionsListCtrl.columns"
+            actions="sectionsListCtrl.actions"></table>
+</div>

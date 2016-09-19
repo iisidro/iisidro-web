@@ -20,9 +20,9 @@ module.exports.injectControllerTo = (mod) => {
             };
 
             this.editQuestion = (question) => {
-                $state.go('base.app.admin.questions.edit', {
-                    questionId: '123'
-                });
+                $state.go('base.app.admin.questions.edit', {questionId: question.id}
+                );
+                }
             };
 
             this.deleteQuestion = (question) => {
@@ -62,12 +62,10 @@ module.exports.injectControllerTo = (mod) => {
                 }
             ];
             this.actions = [
-                /*
                 {
                     label: 'Editar',
                     onCall: this.editQuestion
                 },
-                */
                 {
                     label: 'Eliminar',
                     onCall: this.deleteQuestion

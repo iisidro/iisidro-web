@@ -1,5 +1,5 @@
 module.exports.injectServiceTo = (mod) => {
-    mod.service('Questions', [
+    mod.service('Sections', [
         'API',
         '$q',
         function (API, $q) {
@@ -7,7 +7,7 @@ module.exports.injectServiceTo = (mod) => {
             this.getInstances = () => {
                 return $q((resolve, reject) => {
                     API.get({
-                        url: 'preguntas'
+                        url: config.surveyId + '/secciones'
                     })
                     .then((response) => {
                         resolve(response.data);
@@ -19,18 +19,17 @@ module.exports.injectServiceTo = (mod) => {
             };
 
             this.createInstance = (config) => {
-                let question = config.question;
+                let section = config.section;
 
                 return $q((resolve, reject) => {
                     API.post({
-                        url: 'preguntas',
+                        url: 'secciones',
                         data: {
-                            nombre: question.statement,
-                            tipo: question.type
+                            nombre: section.title
                         }
                     })
                     .then((response) => {
-                        resolve(response);
+                        resolve(response.data);
                     })
                     .catch((error) => {
                         reject(error);
@@ -38,24 +37,24 @@ module.exports.injectServiceTo = (mod) => {
                 });
             };
 
-            this.getInstance = (config = {}) =>{
+            this.getInstance = (config = {}) => {
                 return $q((resolve, reject) =>{
                     API.get({
-                        url: 'preguntas/' + config.questionId
+                        url: config.surveyId + '/secciones/' + config.sectionId
                     })
                     .then((response) =>{
                         resolve(response.data);
                     })
                     .catch((error) =>{
                         reject(error);
-                    })
-                })
+                    });
+                });
             }
 
             this.deleteInstance = (config = {}) => {
                 return $q((resolve, reject) => {
                     API.delete({
-                        url: 'preguntas/' + config.questionId
+                        url: config.surveyId + '/secciones/' + config.sectionId
                     })
                     .then((response) => {
                         resolve(response);
