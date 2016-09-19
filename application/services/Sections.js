@@ -43,7 +43,7 @@ module.exports.injectServiceTo = (mod) => {
                         url: config.surveyId + '/secciones/' + config.sectionId
                     })
                     .then((response) =>{
-                        resolve(response);
+                        resolve(response.data);
                     })
                     .catch((error) =>{
                         reject(error);
