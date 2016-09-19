@@ -44,7 +44,7 @@ module.exports.injectServiceTo = (mod) => {
                         url: 'preguntas/' + config.questionId
                     })
                     .then((response) =>{
-                        resolve(response);
+                        resolve(response.data);
                     })
                     .catch((error) =>{
                         reject(error);
