@@ -20,10 +20,7 @@ module.exports.injectControllerTo = (mod) => {
             };
 
             this.editQuestion = (question) => {
-                $state.go('base.app.admin.questions.edit', Questions.getInstance(
-                    {
-                        questionId: question.id
-                    }));
+                $state.go('base.app.admin.questions.edit', questionId: question.id);
                 }
             };
 
