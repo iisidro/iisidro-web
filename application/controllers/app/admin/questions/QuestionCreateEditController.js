@@ -3,7 +3,8 @@ module.exports.injectControllerTo = (mod) => {
         'Questions',
         'QuestionTypes',
         '$state',
-        function (Questions, QuestionTypes, $state) {
+        '$mdDialog',
+        function (Questions, QuestionTypes, $state, $mdDialog) {
 
             this.initialize = () => {
                 QuestionTypes.getInstances()
@@ -62,17 +63,21 @@ module.exports.injectControllerTo = (mod) => {
                         });
                     }
                     else {
-                        Questions.updateInstance({
-                            question: this.question
-                        })
-                        .then((question) => {
-                            console.log(question);
+                        var updateDialog = $mdDialog.confirm()
+                        .title('¿Está seguro de que quiere guardar los cambios?')
+                        .targetEvent(event)
+                        .ok('Aceptar')
+                        .cancel('Cancelar');
+
+                        $mdDialog.show(updateDialog)
+                        .then(() => {
+                            this.update();
 
                             this.goBack();
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
+                            })
+                            .catch(() => {
+
+                            });
                     }
                 }
             };
@@ -80,6 +85,20 @@ module.exports.injectControllerTo = (mod) => {
             this.goBack = () => {
                 $state.go('base.app.admin.questions.list');
             };
+
+            this.update = () => {
+                Questions.updateInstance({
+                    question: this.question
+                })
+                .then((question) => {
+                    console.log(question);
+
+                    this.goBack();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            }
 
             this.question = {
                 id: -1,

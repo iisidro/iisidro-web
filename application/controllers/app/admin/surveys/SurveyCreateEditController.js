@@ -39,7 +39,6 @@ module.exports.injectControllerTo = (mod) => {
                 event.preventDefault();
 
                 form.$setSubmitted();
-                let aux = 0;
                 if (form.$valid) {
                     if (this.survey.id === -1) {
                         Surveys.createInstance({
