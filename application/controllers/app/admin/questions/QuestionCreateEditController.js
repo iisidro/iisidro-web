@@ -87,6 +87,8 @@ module.exports.injectControllerTo = (mod) => {
                 statement: ''
             };
             this.questionTypes = [];
+
+            this.texto = '';
         }
     ]);
 };

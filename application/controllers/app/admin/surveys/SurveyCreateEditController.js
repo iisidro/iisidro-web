@@ -76,6 +76,8 @@ module.exports.injectControllerTo = (mod) => {
                 id: -1,
                 title: ''
             };
+
+            this.texto = '';
         }
     ]);
 };
