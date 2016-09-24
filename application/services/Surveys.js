@@ -18,6 +18,20 @@ module.exports.injectServiceTo = (mod) => {
                 });
             };
 
+            this.getOne = (config) => {
+                return $q((resolve, reject) => {
+                    API.get({
+                        url: 'encuestas/' + config.surveyId
+                    })
+                    .then((response) => {
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+                });
+            };
+
             this.createInstance = (config) => {
                 let survey = config.survey;
 

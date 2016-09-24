@@ -5,7 +5,9 @@ module.exports.injectControllerTo = (mod) => {
         function (Surveys, $state) {
 
             this.initialize = () => {
+                if ($state.params.hasOwnProperty('surveyId')) {
 
+                }
             };
 
             this.showMessages = (controlId) => {
