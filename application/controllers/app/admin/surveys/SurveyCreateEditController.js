@@ -41,7 +41,7 @@ module.exports.injectControllerTo = (mod) => {
 
                 if (form.$valid) {
                     if (this.survey.id === -1) {
-                        Surveys.updateInstance({
+                        Surveys.createInstance({
                             survey: this.survey
                         })
                         .then((survey) => {
@@ -53,7 +53,17 @@ module.exports.injectControllerTo = (mod) => {
                             console.log(error);
                         });
                     } else {
+                        Surveys.updateInstance({
+                            survey: this.survey
+                        })
+                        .then((survey) => {
+                            console.log(survey);
 
+                            this.goBack();
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                     }
                 }
             };
