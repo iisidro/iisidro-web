@@ -2,7 +2,8 @@ module.exports.injectControllerTo = (mod) => {
     mod.controller('SurveyCreateEditCtrl', [
         'Surveys',
         '$state',
-        function (Surveys, $state) {
+        '$mdDialog',
+        function (Surveys, $state, $mdDialog) {
 
             this.initialize = () => {
                 if ($state.params.hasOwnProperty('surveyId')) {
@@ -38,7 +39,7 @@ module.exports.injectControllerTo = (mod) => {
                 event.preventDefault();
 
                 form.$setSubmitted();
-
+                let aux = 0;
                 if (form.$valid) {
                     if (this.survey.id === -1) {
                         Surveys.createInstance({
@@ -53,19 +54,37 @@ module.exports.injectControllerTo = (mod) => {
                             console.log(error);
                         });
                     } else {
-                        Surveys.updateInstance({
-                            survey: this.survey
-                        })
-                        .then((survey) => {
-                            console.log(survey);
+                        var updateDialog = $mdDialog.confirm()
+                        .title('¿Está seguro de que quiere guardar los cambios?')
+                        .targetEvent(event)
+                        .ok('Aceptar')
+                        .cancel('Cancelar');
+
+                        $mdDialog.show(updateDialog)
+                        .then(() => {
+                            this.update();
 
                             this.goBack();
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
+                            })
+                            .catch(() => {
+
+                            });
+                        };
                     }
-                }
+            };
+
+            this.update = () => {
+                Surveys.updateInstance({
+                    survey: this.survey
+                })
+                .then((survey) => {
+                    console.log(survey);
+
+                    this.goBack();
+                })
+                .catch((error) => {
+                    console.log(error);
+                }); 
             };
 
             this.goBack = () => {
