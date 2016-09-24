@@ -39,33 +39,36 @@ module.exports.injectServiceTo = (mod) => {
             };
 
             this.post = (config) => {
-                return $http({
+                return $http(this.addHeaders({
                     url: path.join(this.config.host, this.config.apiRoot, config.url),
                     method: 'POST',
                     contentType: this.config.contentType,
                     data: JSON.stringify(config.data),
-                    dataType: this.config.dataType,
-                    headers: {
-                        'Authority': this.config.authToken,
-                        'x-auth-token': this.config.authToken,
-                        'X-CSRF-Token': this.config.authToken
-                    }
-                });
+                    params: config.params,
+                    dataType: this.config.dataType
+                }));
+            };
+
+            this.put = (config) => {
+                return $http(this.addHeaders({
+                    url: path.join(this.config.host, this.config.apiRoot, config.url),
+                    method: 'PUT',
+                    contentType: this.config.contentType,
+                    data: JSON.stringify(config.data),
+                    params: config.params,
+                    dataType: this.config.dataType
+                }));
             };
 
             this.get = (config) => {
-                return $http({
+                return $http(this.addHeaders({
                     url: path.join(this.config.host, this.config.apiRoot, config.url),
                     method: 'GET',
                     contentType: this.config.contentType,
                     data: JSON.stringify(config.data),
-                    dataType: this.config.dataType,
-                    headers: {
-                        'Authority': this.config.authToken,
-                        'x-auth-token': this.config.authToken,
-                        'X-CSRF-Token': this.config.authToken
-                    }
-                });
+                    params: config.params,
+                    dataType: this.config.dataType
+                }));
             };
 
             this.delete = (config) => {
@@ -79,23 +82,20 @@ module.exports.injectServiceTo = (mod) => {
                 }));
             };
 
-            this.put = (config) => {
-                return $http({
-                    url: path.join(this.config.host, this.config.apiRoot, config.url),
-                    method: 'PUT',
-                    contentType: this.config.contentType,
-                    data: JSON.stringify(config.data),
-                    dataType: this.config.dataType,
-                    headers: {
+            this.saveInStorage = (config) => {
+                Storage.set('API', config || this.config);
+            };
+
+            this.addHeaders = (config) => {
+                if (this.config.authToken) {
+                    config.headers = {
                         'Authority': this.config.authToken,
                         'x-auth-token': this.config.authToken,
                         'X-CSRF-Token': this.config.authToken
-                    }
-                });
-            };
+                    };
+                }
 
-            this.saveInStorage = (config) => {
-                Storage.set('API', config || this.config);
+                return config;
             };
 
             this.initialize();
