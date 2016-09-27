@@ -51,13 +51,11 @@ module.exports.injectControllerTo = (mod) => {
 
                 form.$setSubmitted();
                 if (form.$valid) {
-                    if (this.survey.id === -1) {
+                    if ($state.params.hasOwnProperty('surveyId')) {
                         Surveys.createInstance({
                             survey: this.survey
                         })
                         .then((survey) => {
-                            console.log(survey);
-
                             this.goBack();
                         })
                         .catch((error) => {
@@ -65,16 +63,16 @@ module.exports.injectControllerTo = (mod) => {
                         });
                     } else {
                         var updateDialog = $mdDialog.confirm()
-                        .title('¿Está seguro de que quiere guardar los cambios?')
-                        .targetEvent(event)
-                        .ok('Aceptar')
-                        .cancel('Cancelar');
+                            .title('¿Está seguro de que quiere guardar los cambios?')
+                            .targetEvent(event)
+                            .ok('Aceptar')
+                            .cancel('Cancelar');
 
                         $mdDialog.show(updateDialog)
-                        .then(() => {
-                            this.update();
+                            .then(() => {
+                                this.update();
 
-                            this.goBack();
+                                this.goBack();
                             })
                             .catch(() => {
 
@@ -88,8 +86,6 @@ module.exports.injectControllerTo = (mod) => {
                     survey: this.survey
                 })
                 .then((survey) => {
-                    console.log(survey);
-
                     this.goBack();
                 })
                 .catch((error) => {
@@ -110,7 +106,7 @@ module.exports.injectControllerTo = (mod) => {
             }
 
             this.survey = {
-                id: -1,
+                id: 0,
                 title: ''
             };
 
