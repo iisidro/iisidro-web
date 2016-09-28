@@ -1,6 +1,7 @@
 // VENDOR LIBS
 const _ = require('lodash');
 const path = require('path');
+const url = require('url');
 
 module.exports.injectServiceTo = (mod) => {
     mod.service('API', [
@@ -29,6 +30,10 @@ module.exports.injectServiceTo = (mod) => {
                 }
             };
 
+            this.buildUrl = (config) => {
+                return url.resolve(this.config.host, path.join(this.config.apiRoot, config.url));
+            };
+
             this.setAuthToken = (authToken) => {
                 this.config.authToken = authToken;
                 this.saveInStorage();
@@ -40,7 +45,7 @@ module.exports.injectServiceTo = (mod) => {
 
             this.post = (config) => {
                 return $http(this.addHeaders({
-                    url: path.join(this.config.host, this.config.apiRoot, config.url),
+                    url: this.buildUrl(config),
                     method: 'POST',
                     contentType: this.config.contentType,
                     data: JSON.stringify(config.data),
@@ -51,7 +56,7 @@ module.exports.injectServiceTo = (mod) => {
 
             this.put = (config) => {
                 return $http(this.addHeaders({
-                    url: path.join(this.config.host, this.config.apiRoot, config.url),
+                    url: this.buildUrl(config),
                     method: 'PUT',
                     contentType: this.config.contentType,
                     data: JSON.stringify(config.data),
@@ -60,9 +65,10 @@ module.exports.injectServiceTo = (mod) => {
                 }));
             };
 
+
             this.get = (config) => {
                 return $http(this.addHeaders({
-                    url: path.join(this.config.host, this.config.apiRoot, config.url),
+                    url: this.buildUrl(config),
                     method: 'GET',
                     contentType: this.config.contentType,
                     data: JSON.stringify(config.data),
@@ -73,7 +79,7 @@ module.exports.injectServiceTo = (mod) => {
 
             this.delete = (config) => {
                 return $http(this.addHeaders({
-                    url: path.join(this.config.host, this.config.apiRoot, config.url),
+                    url: this.buildUrl(config),
                     method: 'DELETE',
                     contentType: this.config.contentType,
                     data: JSON.stringify(config.data),
