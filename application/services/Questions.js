@@ -65,7 +65,7 @@ module.exports.injectServiceTo = (mod) => {
                         }
                     })
                     .then((response) => {
-                        resolve(response);
+                        resolve(response.data);
                     })
                     .catch((error) => {
                         reject(error);

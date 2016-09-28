@@ -28,7 +28,7 @@ module.exports.injectControllerTo = (mod) => {
                 form.$setSubmitted();
                 if (form.$valid) {
                     
-                    }
+                }
             };
 
             this.update = () => {
@@ -36,8 +36,6 @@ module.exports.injectControllerTo = (mod) => {
                     survey: this.survey
                 })
                 .then((survey) => {
-                    console.log(survey);
-
                     this.goBack();
                 })
                 .catch((error) => {
@@ -58,7 +56,7 @@ module.exports.injectControllerTo = (mod) => {
             }
 
             this.survey = {
-                id: -1,
+                id: 0,
                 title: ''
             };
 
