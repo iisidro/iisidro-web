@@ -52,17 +52,7 @@ module.exports.injectControllerTo = (mod) => {
                 form.$setSubmitted();
                 if (form.$valid) {
                     if ($state.params.hasOwnProperty('surveyId')) {
-                        Surveys.createInstance({
-                            survey: this.survey
-                        })
-                        .then((survey) => {
-                            this.goBack();
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                    } else {
-                        var updateDialog = $mdDialog.confirm()
+                            var updateDialog = $mdDialog.confirm()
                             .title('¿Está seguro de que quiere guardar los cambios?')
                             .targetEvent(event)
                             .ok('Aceptar')
@@ -77,6 +67,16 @@ module.exports.injectControllerTo = (mod) => {
                             .catch(() => {
 
                             });
+                    } else {
+                        Surveys.createInstance({
+                            survey: this.survey
+                        })
+                        .then((survey) => {
+                            this.goBack();
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                         };
                     }
             };
