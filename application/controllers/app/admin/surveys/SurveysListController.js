@@ -46,6 +46,12 @@ module.exports.injectControllerTo = (mod) => {
                     });
             };
 
+            this.editSections = (survey) => {
+                $state.go('base.app.admin.surveys.sections.list',{
+                    surveyId: survey.id
+                })
+            }
+
             this.surveys = [];
             this.columns = [
                 {
@@ -58,6 +64,10 @@ module.exports.injectControllerTo = (mod) => {
                 }
             ];
             this.actions = [
+                {
+                    label: 'Secciones',
+                    onCall: this.editSections
+                }
                 {
                     label: 'Editar',
                     onCall: this.editSurvey

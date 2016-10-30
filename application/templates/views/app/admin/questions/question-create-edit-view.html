@@ -10,7 +10,7 @@
         <md-input-container flex>
             <label>Tipo</label>
             <md-select name="type" ng-model="questionCreateEditCtrl.question.type" required>
-                <md-option ng-repeat="questionType in questionCreateEditCtrl.questionTypes" ng-value="questionType">
+                <md-option ng-repeat="questionType in questionCreateEditCtrl.questionTypes" ng-value="questionType" ng-selected="questionCreateEditCtrl.question.type.nombre">
                     {{questionType.nombre}}
                 </md-option>
             </md-select>

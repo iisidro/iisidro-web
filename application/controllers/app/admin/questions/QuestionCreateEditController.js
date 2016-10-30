@@ -18,15 +18,15 @@ module.exports.injectControllerTo = (mod) => {
                     Questions.getOne({
                         questionId: $state.params.questionId
                     })
-                    .then((question) =>{
-                        this.question.statement = question.nombre;
-                        this.question.type = question.tipo.nombre;
-                        this.question.id = $state.params.questionId;
-                    })
-                    .catch((error) =>{
-                        console.log(error);
-                    });
-                    console.log(this.question);
+                        .then((question) =>{
+                            this.question.statement = question.nombre;
+                            this.question.type.id = question.tipo.id;
+                            this.question.type.nombre = question.tipo.nombre;
+                            this.question.id = $state.params.questionId;
+                        })
+                        .catch((error) =>{
+                            console.log(error);
+                        });
                 }
             };
 
@@ -49,34 +49,31 @@ module.exports.injectControllerTo = (mod) => {
                 form.$setSubmitted();
 
                 if (form.$valid) {
-                    if(this.question.id === -1){
+                    if($state.params.hasOwnProperty('questionId')){
+                        var updateDialog = $mdDialog.confirm()
+                            .title('¿Está seguro de que quiere guardar los cambios?')
+                            .targetEvent(event)
+                            .ok('Aceptar')
+                            .cancel('Cancelar');
+
+                        $mdDialog.show(updateDialog)
+                            .then(() => {
+                                this.update();
+
+                                this.goBack();
+                                })
+                                .catch(() => {
+
+                                });
+                    } else {
                         Questions.createInstance({
                             question: this.question
                         })
-                        .then((question) => {
-                            console.log(question);
-
-                            this.goBack();
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                    }
-                    else {
-                        var updateDialog = $mdDialog.confirm()
-                        .title('¿Está seguro de que quiere guardar los cambios?')
-                        .targetEvent(event)
-                        .ok('Aceptar')
-                        .cancel('Cancelar');
-
-                        $mdDialog.show(updateDialog)
-                        .then(() => {
-                            this.update();
-
-                            this.goBack();
+                            .then((question) => {
+                                this.goBack();
                             })
-                            .catch(() => {
-
+                            .catch((error) => {
+                                console.log(error);
                             });
                     }
                 }
@@ -90,23 +87,23 @@ module.exports.injectControllerTo = (mod) => {
                 Questions.updateInstance({
                     question: this.question
                 })
-                .then((question) => {
-                    console.log(question);
-
-                    this.goBack();
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+                    .then((question) => {
+                        this.goBack();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             }
 
             this.question = {
-                id: -1,
-                type: '',
+                id: 0,
+                type: {
+                    id: 0,
+                    nombre: ''
+                },
                 statement: ''
             };
             this.questionTypes = [];
-
             this.texto = '';
         }
     ]);
