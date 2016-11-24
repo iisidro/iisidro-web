@@ -123,6 +123,33 @@ module.exports.injectRouterTo = (mod) => {
             // ADMIN SURVEYS FALLBACKS
             $urlRouterProvider.when(new RegExp('/app/admin/surveys*'), '/app/admin/surveys/list');
 
+            // ADMIN SECTIONS FALLBACKS
+
+            $stateProvider
+                .state('base.app.admin.sections', {
+                    abstract: true,
+                    url: '/sections',
+                    templateUrl: 'views/app/admin/sections/sections-view.html'
+                }).
+                state('base.app.admin.sections.list', {
+                    url: '/list/:surveyId',
+                    templateUrl: 'views/app/admin/sections/sections-list-view.html',
+                    controller: 'SectionsListCtrl',
+                    controllerAs: 'sectionsListCtrl'}
+                    ).
+                state('base.app.admin.sections.create', {
+                    url: '/create/:surveyId',
+                    templateUrl: 'views/app/admin/sections/section-create-edit-view.html',
+                    controller: 'SectionCreateEditCtrl',
+                    controllerAs: 'sectionCreateEditCtrl'}
+                    ).
+                state('base.app.admin.sections.edit', {
+                    url: '/edit/:surveyId/:sectionId',
+                    templateUrl: 'views/app/admin/sections/section-create-edit-view.html',
+                    controller: 'SectionCreateEditCtrl',
+                    controllerAs: 'sectionCreateEditCtrl'}
+                    );
+
             // ADMIN FALLBACKS
             $urlRouterProvider.when(new RegExp('/app/admin*'), '/app/admin/dashboard');
 

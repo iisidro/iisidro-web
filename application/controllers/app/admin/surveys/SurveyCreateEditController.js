@@ -19,17 +19,6 @@ module.exports.injectControllerTo = (mod) => {
                     .catch((error) => {
                         console.log(error);
                     });
-                    //console.log(this.survey);
-
-                    Sections.getInstances({
-                        surveyId: $state.params.surveyId
-                    })
-                    .then((sections) => {
-                        this.sections = sections;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
                 }
             };
 
@@ -114,31 +103,7 @@ module.exports.injectControllerTo = (mod) => {
                 title: ''
             };
 
-            this.sections = [];
-            this.columns = [
-                {
-                    key: 'orden',
-                    label: 'Orden'
-                },
-                {
-                    key: 'codigo',
-                    label: 'Código'
-                },
-                {
-                    key: 'nombre',
-                    label: 'Nombre'
-                }
-            ];
-            this.actions = [
-                {
-                    label: 'Editar',
-                    onCall: this.editSection
-                },
-                {
-                    label: 'Eliminar',
-                    onCall: this.deleteSection
-                }
-            ];
+            
         }
     ]);
 };

@@ -1,0 +1,11 @@
+<div ng-init="sectionsListCtrl.initialize()">
+	<div><label>Encuesta: {{sectionsListCtrl.survey.title}}</label><br></div>
+	<div>
+	<md-button class="md-primary md-raised" ng-click="sectionsListCtrl.create()">
+        Agregar Seccion
+    </md-button>
+    </div>   
+    <table content="sectionsListCtrl.sections"
+    columns="sectionsListCtrl.columns"
+    actions="sectionsListCtrl.actions"></table>
+</div>
