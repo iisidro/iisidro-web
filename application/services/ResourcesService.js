@@ -101,6 +101,23 @@ module.exports.injectServiceTo = (mod) => {
 
                 return API.put(config).then(dataFilter);
             };
+
+            // Authentication
+            this.authenticate = (user) => {
+                const config = {
+                    url: 'authenticate',
+                    data: user
+                };
+
+                return API.post(config).then(dataFilter);
+            };
+            this.getAccount = () => {
+                const config = {
+                    url: 'account'
+                };
+
+                return API.get(config).then(dataFilter);
+            };
         }
     ]);
 };

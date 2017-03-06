@@ -1,8 +1,9 @@
 module.exports.injectServiceTo = (mod) => {
     mod.service('Auth', [
+        'Resources',
         'API',
         '$q',
-        function (API, $q) {
+        function (Resources, API, $q) {
             this.user = null;
 
             this.initialize = () => {
@@ -17,44 +18,17 @@ module.exports.injectServiceTo = (mod) => {
                 });
             };
 
-            this.setUser = (user) => {
-                this.user = user;
-            };
-
             this.getUser = () => {
                 return this.user;
             };
 
-            this.isAuthTokenDefined = () => {
-                return Boolean(API.getAuthToken());
-            };
-
             this.login = (config = {}) => {
-                return $q((resolve, reject) => {
-                    API.post({
-                        url: 'authenticate',
-                        data: {
-                            username: config.username,
-                            password: config.password
-                        }
-                    }).then((response) => {
-                        API.setAuthToken(response.data.token);
+                return Resources.authenticate(config)
+                    .then((data) => {
+                        API.setAuthToken(data.token);
 
-                        this.getAuthenticatedUser()
-                            .then((user) => {
-                                resolve(user);
-                            })
-                            .catch((error) => {
-                                console.log(error);
-
-                                reject(error);
-                            });
-                    }).catch((error) => {
-                        reject(error);
-
-                        //notificationStore.addError(jqXHR.responseJSON);
+                        return this.getAuthenticatedUser();
                     });
-                });
             };
 
             this.getAuthenticatedUser = (config) => {
@@ -65,20 +39,16 @@ module.exports.injectServiceTo = (mod) => {
                     promise = $q((resolve) => {
                         resolve(user);
                     });
+                } else if (API.getAuthToken()) {
+                    promise = Resources.getAccount()
+                        .then((user) => {
+                            this.user = user;
+
+                            return user;
+                        });
                 } else {
                     promise = $q((resolve, reject) => {
-                        API.get({
-                            url: 'account',
-                            data: {}
-                        }).then((response) => {
-                            let user = response.data;
-
-                            this.setUser(user);
-
-                            resolve(user);
-                        }).catch((error) => {
-                            reject(error);
-                        });
+                        reject();
                     });
                 }
 
