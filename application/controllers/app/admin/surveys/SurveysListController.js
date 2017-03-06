@@ -1,9 +1,10 @@
 module.exports.injectControllerTo = (mod) => {
     mod.controller('SurveysListCtrl', [
+        'tablesConfig',
         'Surveys',
         '$state',
         '$mdDialog',
-        function (Surveys, $state, $mdDialog) {
+        function (tablesConfig, Surveys, $state, $mdDialog) {
 
             this.initialize = () => {
                 this.loadSurveys();
@@ -47,16 +48,7 @@ module.exports.injectControllerTo = (mod) => {
             };
 
             this.surveys = [];
-            this.columns = [
-                {
-                    key: 'nombre',
-                    label: 'Nombre'
-                },
-                {
-                    key: 'fecha_hora_creacion',
-                    label: 'Hora de creacion'
-                }
-            ];
+            this.columns = tablesConfig.surveysTable.columns;
             this.actions = [
                 {
                     label: 'Editar',

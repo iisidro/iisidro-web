@@ -3,6 +3,7 @@ module.exports.injectServicesTo = (mod) => {
     require('application/services/Loader').injectServiceTo(mod);
     require('application/services/Questions').injectServiceTo(mod);
     require('application/services/QuestionTypes').injectServiceTo(mod);
+    require('application/services/ResourcesService').injectServiceTo(mod);
     require('application/services/Surveys').injectServiceTo(mod);
     require('application/services/Sections').injectServiceTo(mod);
     require('libs/api/API').injectServiceTo(mod);

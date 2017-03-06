@@ -1,32 +1,32 @@
 module.exports.injectControllerTo = (mod) => {
     mod.controller('QuestionCreateEditCtrl', [
-        'Questions',
-        'QuestionTypes',
+        'Resources',
         '$state',
         '$mdDialog',
-        function (Questions, QuestionTypes, $state, $mdDialog) {
+        function (Resources, $state, $mdDialog) {
 
             this.initialize = () => {
-                QuestionTypes.getInstances()
+                const questionId = this.getQuestionId();
+
+                this.loadQuestionTypes();
+
+                if (questionId) {
+                    this.loadQuestion(questionId);
+                }
+            };
+
+            this.loadQuestionTypes = () => {
+                Resources.getQuestionTypes()
                     .then((questionTypes) => {
                         this.questionTypes = questionTypes;
-                    })
-                    .catch(() => {
-
                     });
-                if ($state.params.hasOwnProperty('questionId')) {   
-                    Questions.getOne({
-                        questionId: $state.params.questionId
-                    })
-                        .then((question) =>{
-                            this.question.statement = question.nombre;
-                            this.question.type = question.tipo.nombre;
-                            this.question.id = $state.params.questionId;
-                        })
-                        .catch((error) =>{
-                            console.log(error);
-                        });
-                }
+            };
+
+            this.loadQuestion = (questionId) => {
+                Resources.getQuestion(questionId)
+                    .then((question) => {
+                        this.question = question;
+                    });
             };
 
             this.showMessages = (controlId) => {
@@ -48,7 +48,7 @@ module.exports.injectControllerTo = (mod) => {
                 form.$setSubmitted();
 
                 if (form.$valid) {
-                    if($state.params.hasOwnProperty('questionId')){
+                    if(this.getQuestionId()){
                         var updateDialog = $mdDialog.confirm()
                             .title('¿Está seguro de que quiere guardar los cambios?')
                             .targetEvent(event)
@@ -57,22 +57,15 @@ module.exports.injectControllerTo = (mod) => {
 
                         $mdDialog.show(updateDialog)
                             .then(() => {
-                                this.update();
-
-                                this.goBack();
-                                })
-                                .catch(() => {
-
-                                });
-                    } else {
-                        Questions.createInstance({
-                            question: this.question
-                        })
+                                return Resources.updateQuestion(this.question)
+                            })
                             .then((question) => {
                                 this.goBack();
-                            })
-                            .catch((error) => {
-                                console.log(error);
+                            });
+                    } else {
+                        Resources.createQuestion(this.question)
+                            .then((question) => {
+                                this.goBack();
                             });
                     }
                 }
@@ -82,25 +75,12 @@ module.exports.injectControllerTo = (mod) => {
                 $state.go('base.app.admin.questions.list');
             };
 
-            this.update = () => {
-                Questions.updateInstance({
-                    question: this.question
-                })
-                    .then((question) => {
-                        this.goBack();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            }
-
-            this.question = {
-                id: 0,
-                type: '',
-                statement: ''
+            this.getQuestionId = () => {
+                return $state.params.questionId;
             };
+
+            this.question = {};
             this.questionTypes = [];
-            this.texto = '';
         }
     ]);
 };

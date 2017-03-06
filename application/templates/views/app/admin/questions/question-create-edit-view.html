@@ -2,24 +2,25 @@
     <div layout>
         <md-input-container flex>
             <label>Texto de la pregunta</label>
-            <input name="statement" ng-model="questionCreateEditCtrl.question.statement" required>
-            <div ng-messages="questionCreateEditCtrl.getErrors('statement')" ng-show="questionCreateEditCtrl.showMessages('statement')">
+            <input name="nombre" ng-model="questionCreateEditCtrl.question.nombre" required>
+            <div ng-messages="questionCreateEditCtrl.getErrors('nombre')" ng-show="questionCreateEditCtrl.showMessages('nombre')">
                 <div ng-message="required">Debe ingresar un texto para la pregunta</div>
             </div>
         </md-input-container>
         <md-input-container flex>
             <label>Tipo</label>
-            <md-select name="type" ng-model="questionCreateEditCtrl.question.type" required>
-                <md-option ng-repeat="questionType in questionCreateEditCtrl.questionTypes" ng-value="questionType">
+            <md-select name="tipo" ng-model="questionCreateEditCtrl.question.tipo" required>
+                <md-option ng-repeat="questionType in questionCreateEditCtrl.questionTypes" ng-value="questionType"
+                    ng-selected="questionType.id === questionCreateEditCtrl.question.tipo.id">
                     {{questionType.nombre}}
                 </md-option>
             </md-select>
-            <div ng-messages="questionCreateEditCtrl.getErrors('type')" ng-show="questionCreateEditCtrl.showMessages('type')">
+            <div ng-messages="questionCreateEditCtrl.getErrors('tipo')" ng-show="questionCreateEditCtrl.showMessages('tipo')">
                 <div ng-message="required">Debe seleccionar un tipo para la pregunta</div>
             </div>
         </md-input-container>
     </div>
-    <div layout ng-if="questionCreateEditCtrl.question.type.nombre === 'texto'">
+    <div layout ng-if="questionCreateEditCtrl.question.tipo.nombre === 'texto'">
         <md-input-container flex="50">
             <label>Longitud maxima</label>
             <input name="maxLength" ng-model="questionCreateEditCtrl.question.maxLength" required min="0" max="255" type="number">
