@@ -1,22 +1,19 @@
 module.exports.injectControllerTo = (mod) => {
     mod.controller('SurveysListCtrl', [
         'tablesConfig',
-        'Surveys',
+        'Resources',
         '$state',
         '$mdDialog',
-        function (tablesConfig, Surveys, $state, $mdDialog) {
+        function (tablesConfig, Resources, $state, $mdDialog) {
 
             this.initialize = () => {
                 this.loadSurveys();
             };
 
             this.loadSurveys = () => {
-                Surveys.getInstances()
+                Resources.getSurveys()
                     .then((surveys) => {
                         this.surveys = surveys;
-                    })
-                    .catch((error) => {
-
                     });
             };
 
@@ -35,15 +32,10 @@ module.exports.injectControllerTo = (mod) => {
 
                 $mdDialog.show(deleteDialog)
                     .then(() => {
-                        Surveys.deleteInstance({
-                            surveyId: survey.id
-                        })
-                        .then((response) => {
-                            this.loadSurveys();
-                        })
-                        .catch(() => {
-
-                        });
+                        return Resources.deleteSurvey(survey.id);
+                    })
+                    .then(() => {
+                        this.loadSurveys();
                     });
             };
 

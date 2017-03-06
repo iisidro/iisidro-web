@@ -22,16 +22,16 @@ module.exports.injectServiceTo = (mod) => {
 
                 return API.delete(config).then(dataFilter);
             };
-            this.getQuestions = () => {
+            this.getQuestion = (questionId) => {
                 const config = {
-                    url: 'preguntas'
+                    url: 'preguntas/' + questionId
                 };
 
                 return API.get(config).then(dataFilter);
             };
-            this.getQuestion = (questionId) => {
+            this.getQuestions = () => {
                 const config = {
-                    url: 'preguntas/' + questionId
+                    url: 'preguntas'
                 };
 
                 return API.get(config).then(dataFilter);
@@ -52,6 +52,54 @@ module.exports.injectServiceTo = (mod) => {
                 };
 
                 return API.get(config).then(dataFilter);
+            };
+
+            // Section
+            this.getSurveySections = (surveyId) => {
+                const config = {
+                    url: 'seccionesByEncuesta/' + surveyId
+                };
+
+                return API.get(config).then(dataFilter);
+            };
+
+            // Survey
+            this.createSurvey = (survey) => {
+                const config = {
+                    url: 'encuestas',
+                    data: survey
+                };
+
+                return API.post(config).then(dataFilter);
+            };
+            this.deleteSurvey = (surveyId) => {
+                const config = {
+                    url: 'encuestas/' + surveyId
+                };
+
+                return API.delete(config).then(dataFilter);
+            };
+            this.getSurvey = (surveyId) => {
+                const config = {
+                    url: 'encuestas/' + surveyId
+                };
+
+                return API.get(config).then(dataFilter);
+            };
+            this.getSurveys = () => {
+                const config = {
+                    url: 'encuestas'
+                };
+
+                return API.get(config).then(dataFilter);
+            };
+            this.updateSurvey = (survey) => {
+                const config = {
+                    url: 'encuestas',
+                    data: survey
+                };
+
+                return API.put(config).then(dataFilter);
             };
         }
     ]);

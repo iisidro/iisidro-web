@@ -27,6 +27,22 @@ module.exports.injectConstantTo = (mod) => {
                     label: 'Hora de creacion'
                 }
             ]
+        },
+        surveySectionsTable: {
+            columns: [
+                {
+                    key: 'orden',
+                    label: 'Orden'
+                },
+                {
+                    key: 'codigo',
+                    label: 'Código'
+                },
+                {
+                    key: 'nombre',
+                    label: 'Nombre'
+                }
+            ]
         }
     });
 };
