@@ -1,35 +1,24 @@
 module.exports.injectControllerTo = (mod) => {
     mod.controller('SurveyCreateEditCtrl', [
-        'Surveys',
+        'tablesConfig',
+        'Resources',
         '$state',
         '$mdDialog',
-        'Sections',
-        function (Surveys, $state, $mdDialog, Sections) {
+        function (tablesConfig, Resources, $state, $mdDialog) {
 
             this.initialize = () => {
-                if ($state.params.hasOwnProperty('surveyId')) {
-                    Surveys.getOne({
-                        surveyId: $state.params.surveyId
-                    })
-                    .then((survey) => {
-                        //console.log(survey);
-                        this.survey.id = $state.params.surveyId;
-                        this.survey.title = survey.nombre;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-                    //console.log(this.survey);
+                const surveyId = this.getSurveyId();
 
-                    Sections.getInstances({
-                        surveyId: $state.params.surveyId
-                    })
-                    .then((sections) => {
-                        this.sections = sections;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                if (surveyId) {
+                    Resources.getSurvey(surveyId)
+                        .then((survey) => {
+                            this.survey = survey;
+                        });
+
+                    Resources.getSurveySections(surveyId)
+                        .then((sections) => {
+                            this.sections = sections;
+                        });
                 }
             };
 
@@ -50,9 +39,10 @@ module.exports.injectControllerTo = (mod) => {
                 event.preventDefault();
 
                 form.$setSubmitted();
+
                 if (form.$valid) {
-                    if ($state.params.hasOwnProperty('surveyId')) {
-                            var updateDialog = $mdDialog.confirm()
+                    if (this.getSurveyId()) {
+                        var updateDialog = $mdDialog.confirm()
                             .title('¿Está seguro de que quiere guardar los cambios?')
                             .targetEvent(event)
                             .ok('Aceptar')
@@ -60,37 +50,18 @@ module.exports.injectControllerTo = (mod) => {
 
                         $mdDialog.show(updateDialog)
                             .then(() => {
-                                this.update();
-
-                                this.goBack();
+                                return Resources.updateSurvey(this.survey);
                             })
-                            .catch(() => {
-
+                            .then((survey) => {
+                                this.goBack();
                             });
                     } else {
-                        Surveys.createInstance({
-                            survey: this.survey
-                        })
-                        .then((survey) => {
-                            this.goBack();
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                        };
+                        Resources.createSurvey(this.survey)
+                            .then((survey) => {
+                                this.goBack();
+                            });
                     }
-            };
-
-            this.update = () => {
-                Surveys.updateInstance({
-                    survey: this.survey
-                })
-                .then((survey) => {
-                    this.goBack();
-                })
-                .catch((error) => {
-                    console.log(error);
-                }); 
+                }
             };
 
             this.goBack = () => {
@@ -105,26 +76,13 @@ module.exports.injectControllerTo = (mod) => {
 
             }
 
-            this.survey = {
-                id: 0,
-                title: ''
+            this.getSurveyId = () => {
+                return $state.params.surveyId;
             };
 
+            this.survey = {};
             this.sections = [];
-            this.columns = [
-                {
-                    key: 'orden',
-                    label: 'Orden'
-                },
-                {
-                    key: 'codigo',
-                    label: 'Código'
-                },
-                {
-                    key: 'nombre',
-                    label: 'Nombre'
-                }
-            ];
+            this.columns = tablesConfig.surveySectionsTable.columns;
             this.actions = [
                 {
                     label: 'Editar',

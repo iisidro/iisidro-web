@@ -1,21 +1,19 @@
 module.exports.injectControllerTo = (mod) => {
     mod.controller('QuestionsListCtrl', [
-        'Questions',
+        'tablesConfig',
+        'Resources',
         '$state',
         '$mdDialog',
-        function (Questions, $state, $mdDialog) {
+        function (tablesConfig, Resources, $state, $mdDialog) {
 
             this.initialize = () => {
                 this.loadQuestions();
             };
 
             this.loadQuestions = () => {
-                Questions.getInstances()
+                Resources.getQuestions()
                     .then((questions) => {
                         this.questions = questions;
-                    })
-                    .catch((error) => {
-
                     });
             };
 
@@ -34,33 +32,18 @@ module.exports.injectControllerTo = (mod) => {
 
                 $mdDialog.show(deleteDialog)
                     .then(() => {
-                        Questions.deleteInstance({
-                            questionId: question.id
-                        })
-                        .then((response) => {
-                            this.loadQuestions();
-                        })
-                        .catch(() => {
+                        return Resources.deleteQuestion(question.id);
+                    })
+                    .then((data) => {
+                        this.loadQuestions();
+                    })
+                    .catch(() => {
 
-                        });
                     });
             };
 
             this.questions = [];
-            this.columns = [
-                {
-                    key: 'nombre',
-                    label: 'Nombre'
-                },
-                {
-                    key: 'tipo.nombre',
-                    label: 'Tipo'
-                },
-                {
-                    key: 'fecha_hora_creacion',
-                    label: 'Hora de creacion'
-                }
-            ];
+            this.columns = tablesConfig.questionsTable.columns;
             this.actions = [
                 {
                     label: 'Editar',
