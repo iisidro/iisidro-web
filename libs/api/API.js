@@ -13,7 +13,7 @@ module.exports.injectServiceTo = (mod) => {
                 apiRoot: 'api',
                 contentType: "application/json",
                 dataType: 'json',
-                host: 'https://iisidro-server.herokuapp.com',
+                host: 'https://iisidro-server-dev.herokuapp.com',
                 authToken: null
             };
 
