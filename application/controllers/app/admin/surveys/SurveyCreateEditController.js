@@ -9,17 +9,34 @@ module.exports.injectControllerTo = (mod) => {
             this.initialize = () => {
                 const surveyId = this.getSurveyId();
 
-                if (surveyId) {
-                    Resources.getSurvey(surveyId)
-                        .then((survey) => {
-                            this.survey = survey;
-                        });
+                this.loadSections();
 
-                    Resources.getSurveySections(surveyId)
-                        .then((sections) => {
-                            this.sections = sections;
-                        });
+                if (surveyId) {
+                    this.loadSurvey(surveyId);
                 }
+            };
+
+            this.loadSections = () => {
+                Resources.getSections()
+                    .then((sections) => {
+                        this.sections = sections;
+                    });
+            };
+
+            this.loadSurvey = (surveyId) => {
+                const promises = [
+                    Resources.getSurvey(surveyId),
+                    Resources.getSurveySections(surveyId)
+                ];
+
+                Promise.all(promises)
+                    .then((results) => {
+                        const survey = results[0];
+
+                        survey.secciones = results[1];
+
+                        this.survey = survey;
+                    });
             };
 
             this.showMessages = (controlId) => {

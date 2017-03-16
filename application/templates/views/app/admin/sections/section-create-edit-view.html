@@ -1,22 +1,46 @@
-<form name="sectionCreateEditCtrl.surveyForm" ng-init="sectionCreateEditCtrl.initialize()" novalidate>
+<form name="sectionCreateEditCtrl.form" ng-init="sectionCreateEditCtrl.initialize()" novalidate>
     <div layout>
         <md-input-container flex>
-            <label>Nombre de la sección</label>
-            <input name="name" ng-model="sectionCreateEditCtrl.section.name" required>
-            <div ng-messages="surveyCreateEditCtrl.getErrors('name')" ng-show="surveyCreateEditCtrl.showMessages('name')">
-                <div ng-message="required">Debe ingresar un nombre para la sección</div>
-            </div>
-        </md-input-container>
-        <md-input-container>
-            <label>Orden</label>
-            <input name="maxLength" ng-model="sectionCreateEditCtrl.question.maxLength" required min="0" max="14" type="number">
-            <div ng-messages="sectionCreateEditCtrl.getErrors('maxLength')" ng-show="sectionCreateEditCtrl.showMessages('maxLength')">
-                <div ng-message="required">Debe ingresar una orden para la sección</div>
-                <div ng-message="min">El orden debe ser un numero positivo</div>
-                <div ng-message="max">El orden no puede ser mayor a 14</div>
+            <label>Código de la sección</label>
+            <input name="codigo" ng-model="sectionCreateEditCtrl.section.codigo" required>
+            <div ng-messages="surveyCreateEditCtrl.getErrors('codigo')" ng-show="surveyCreateEditCtrl.showMessages('codigo')">
+                <div ng-message="required">Debe ingresar un código para la sección</div>
             </div>
         </md-input-container>
     </div>
+    <div layout>
+        <md-input-container flex>
+            <label>Nombre de la sección</label>
+            <input name="nombre" ng-model="sectionCreateEditCtrl.section.nombre" required>
+            <div ng-messages="surveyCreateEditCtrl.getErrors('nombre')" ng-show="surveyCreateEditCtrl.showMessages('nombre')">
+                <div ng-message="required">Debe ingresar un nombre para la sección</div>
+            </div>
+        </md-input-container>
+    </div>
+    <h3 class="md-display-0">Preguntas</h3>
+    <div layout>
+        <md-input-container flex>
+            <label>Seleccione una pregunta a agregar</label>
+            <md-select name="question" ng-model="sectionCreateEditCtrl.question">
+                <md-option ng-repeat="question in sectionCreateEditCtrl.questions" ng-value="question"
+                    ng-selected="question.id === sectionCreateEditCtrl.question.id">
+                    {{question.nombre}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+    <md-button ng-click="sectionCreateEditCtrl.addQuestion()" type="submit">
+        Agregar pregunta
+    </md-button>
+    <br />
+    <br />
+    <div>
+        <table content="sectionCreateEditCtrl.section.preguntas"
+            columns="sectionCreateEditCtrl.columns"
+            actions="sectionCreateEditCtrl.actions"></table>
+    </div>
+    <br />
+    <br />
     <div>
         <md-button ng-disabled="sectionCreateEditCtrl.submitting"
             ng-click="sectionCreateEditCtrl.handleFormSubmit($event)"
@@ -24,7 +48,7 @@
             Guardar
         </md-button>
         <md-button
-            ui-sref = "base.app.admin.surveys.list">
+            ui-sref="base.app.admin.sections.list">
             Cancelar
         </md-button>
     </div>

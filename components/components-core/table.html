@@ -30,5 +30,9 @@
                 </md-menu>
             </td>
         </tr>
+
+        <tr ng-if="!tableCtrl.hasContent()">
+            <td class="table--cell" colspan={{tableCtrl.getColumnsCount()}}>No se han encontrado registros</td>
+        </tr>
     </tbody>
 </table>
