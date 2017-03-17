@@ -76,13 +76,19 @@ module.exports.injectControllerTo = (mod) => {
 
                         $mdDialog.show(updateDialog)
                             .then(() => {
-                                return Resources.updateSection(this.section);
+                                return Promise.all([
+                                    Resources.updateSection(this.section),
+                                    Resources.updateSectionQuestions(this.section.id, this.section.preguntas)
+                                ]);
                             })
                             .then((survey) => {
                                 this.goBack();
                             });
                     } else {
-                        Resources.createSection(this.section)
+                        Resources.createSection(_.omit(this.section, ['preguntas']))
+                            .then((section) => {
+                                return Resources.updateSectionQuestions(section.id, this.section.preguntas);
+                            })
                             .then((section) => {
                                 this.goBack();
                             });

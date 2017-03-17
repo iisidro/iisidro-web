@@ -99,6 +99,14 @@ module.exports.injectServiceTo = (mod) => {
 
                 return API.put(config).then(dataFilter);
             };
+            this.updateSectionQuestions = (sectionId, questions) => {
+                const config = {
+                    url: 'preguntas/seccion/' + sectionId,
+                    data: questions
+                };
+
+                return API.post(config).then(dataFilter);
+            };
 
             // Survey
             this.createSurvey = (survey) => {
