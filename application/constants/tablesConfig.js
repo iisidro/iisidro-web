@@ -43,10 +43,6 @@ module.exports.injectConstantTo = (mod) => {
         surveySectionsTable: {
             columns: [
                 {
-                    key: 'orden',
-                    label: 'Orden'
-                },
-                {
                     key: 'codigo',
                     label: 'Código'
                 },

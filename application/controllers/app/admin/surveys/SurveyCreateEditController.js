@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 module.exports.injectControllerTo = (mod) => {
     mod.controller('SurveyCreateEditCtrl', [
         'tablesConfig',
@@ -67,31 +69,56 @@ module.exports.injectControllerTo = (mod) => {
 
                         $mdDialog.show(updateDialog)
                             .then(() => {
-                                return Resources.updateSurvey(this.survey);
+                                return Promise.all([
+                                    Resources.updateSurvey(this.survey),
+                                    Resources.updateSurveySections(this.survey.id, this.survey.secciones)
+                                ]);
                             })
                             .then((survey) => {
                                 this.goBack();
                             });
                     } else {
-                        Resources.createSurvey(this.survey)
+                        Resources.createSurvey(_.omit(this.survey, ['secciones']))
                             .then((survey) => {
+                                return Resources.updateSurveySections(survey.id, this.survey.secciones);
+                            })
+                            .then(() => {
                                 this.goBack();
                             });
                     }
                 }
             };
 
+            this.addSection = () => {
+                const section = this.section;
+
+                if (!this.survey.secciones) {
+                    this.survey.secciones = [];
+                }
+
+                if (section && !this.isSectionAdded(section)) {
+                    this.survey.secciones.push(section);
+                    this.section = null;
+                }
+            };
+
+            this.isSectionAdded = (section) => {
+                return (!!_.find(this.survey.secciones, (addedSection) => {
+                    return (addedSection.id === section.id);
+                }));
+            };
+
+            this.deleteSection = (sectionToDelete) => {
+                const index = _.findIndex(this.survey.secciones, (section) => {
+                    return (section.id === sectionToDelete.id);
+                });
+
+                this.survey.secciones.splice(index, 1);
+            };
+
             this.goBack = () => {
                 $state.go('base.app.admin.surveys.list');
             };
-
-            this.deleteSection = () => {
-
-            };
-
-            this.editSection = () => {
-
-            }
 
             this.getSurveyId = () => {
                 return $state.params.surveyId;

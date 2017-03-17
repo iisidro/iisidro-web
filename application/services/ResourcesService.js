@@ -146,6 +146,14 @@ module.exports.injectServiceTo = (mod) => {
 
                 return API.put(config).then(dataFilter);
             };
+            this.updateSurveySections = (surveyId, sections) => {
+                const config = {
+                    url: 'secciones/encuesta/' + surveyId,
+                    data: sections
+                };
+
+                return API.post(config).then(dataFilter);
+            };
 
             // Authentication
             this.authenticate = (user) => {
