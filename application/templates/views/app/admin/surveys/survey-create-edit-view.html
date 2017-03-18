@@ -8,12 +8,30 @@
             </div>
         </md-input-container>
     </div>
+    <h3 class="md-display-0">Secciones</h3>
+    <div layout>
+        <md-input-container flex>
+            <label>Seleccione una seccion a agregar</label>
+            <md-select name="section" ng-model="surveyCreateEditCtrl.section">
+                <md-option ng-repeat="section in surveyCreateEditCtrl.sections" ng-value="section"
+                    ng-selected="section.id === surveyCreateEditCtrl.section.id">
+                    {{section.nombre}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+    <md-button ng-click="surveyCreateEditCtrl.addSection()" type="submit">
+        Agregar seccion
+    </md-button>
+    <br />
+    <br />
     <div>
-        <label>Secciones</label>
-        <table content="surveyCreateEditCtrl.sections"
+        <table content="surveyCreateEditCtrl.survey.secciones"
             columns="surveyCreateEditCtrl.columns"
             actions="surveyCreateEditCtrl.actions"></table>
     </div>
+    <br />
+    <br />
     <div>
         <md-button ng-disabled="surveyCreateEditCtrl.submitting"
             ng-click="surveyCreateEditCtrl.handleFormSubmit($event)"

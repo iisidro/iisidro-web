@@ -14,6 +14,12 @@ module.exports.injectConstantTo = (mod) => {
         },
         {
             icon: 'list',
+            label: 'Secciones',
+            rootState: 'base.app.admin.sections',
+            sref: 'base.app.admin.sections.list'
+        },
+        {
+            icon: 'list',
             label: 'Encuestas',
             rootState: 'base.app.admin.surveys',
             sref: 'base.app.admin.surveys.list'

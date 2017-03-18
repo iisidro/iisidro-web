@@ -55,12 +55,57 @@ module.exports.injectServiceTo = (mod) => {
             };
 
             // Section
-            this.getSurveySections = (surveyId) => {
+            this.createSection = (section) => {
                 const config = {
-                    url: 'seccionesByEncuesta/' + surveyId
+                    url: 'secciones',
+                    data: section
+                };
+
+                return API.post(config).then(dataFilter);
+            };
+            this.getSection = (sectionId) => {
+                const config = {
+                    url: 'secciones/' + sectionId
                 };
 
                 return API.get(config).then(dataFilter);
+            };
+            this.getSectionQuestions = (sectionId) => {
+                const config = {
+                    url: 'preguntas/seccion/' + sectionId
+                };
+
+                return API.get(config).then(dataFilter);
+            };
+            this.getSections = () => {
+                const config = {
+                    url: 'secciones'
+                };
+
+                return API.get(config).then(dataFilter);
+            };
+            this.getSurveySections = (surveyId) => {
+                const config = {
+                    url: 'secciones/encuesta/' + surveyId
+                };
+
+                return API.get(config).then(dataFilter);
+            };
+            this.updateSection = (section) => {
+                const config = {
+                    url: 'secciones',
+                    data: section
+                };
+
+                return API.put(config).then(dataFilter);
+            };
+            this.updateSectionQuestions = (sectionId, questions) => {
+                const config = {
+                    url: 'preguntas/seccion/' + sectionId,
+                    data: questions
+                };
+
+                return API.post(config).then(dataFilter);
             };
 
             // Survey
@@ -100,6 +145,14 @@ module.exports.injectServiceTo = (mod) => {
                 };
 
                 return API.put(config).then(dataFilter);
+            };
+            this.updateSurveySections = (surveyId, sections) => {
+                const config = {
+                    url: 'secciones/encuesta/' + surveyId,
+                    data: sections
+                };
+
+                return API.post(config).then(dataFilter);
             };
 
             // Authentication
