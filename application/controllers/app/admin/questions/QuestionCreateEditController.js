@@ -2,28 +2,35 @@ module.exports.injectControllerTo = (mod) => {
     mod.controller('QuestionCreateEditCtrl', [
         'Resources',
         '$state',
+        '$scope',
         '$mdDialog',
-        function (Resources, $state, $mdDialog) {
+        function (Resources, $state, $scope, $mdDialog) {
 
             this.initialize = () => {
                 const questionId = this.getQuestionId();
+                const promises = [];
 
-                this.loadQuestionTypes();
+                prmises.push(this.loadQuestionTypes());
 
                 if (questionId) {
-                    this.loadQuestion(questionId);
+                    promises.push(this.loadQuestion(questionId));
                 }
+
+                Promise.all(promises)
+                    .then(() => {
+                        $scope.$apply()
+                    });
             };
 
             this.loadQuestionTypes = () => {
-                Resources.getQuestionTypes()
+                return Resources.getQuestionTypes()
                     .then((questionTypes) => {
                         this.questionTypes = questionTypes;
                     });
             };
 
             this.loadQuestion = (questionId) => {
-                Resources.getQuestion(questionId)
+                return Resources.getQuestion(questionId)
                     .then((question) => {
                         this.question = question;
                     });

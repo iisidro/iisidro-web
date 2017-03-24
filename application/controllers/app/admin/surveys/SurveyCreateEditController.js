@@ -5,21 +5,28 @@ module.exports.injectControllerTo = (mod) => {
         'tablesConfig',
         'Resources',
         '$state',
+        '$scope',
         '$mdDialog',
-        function (tablesConfig, Resources, $state, $mdDialog) {
+        function (tablesConfig, Resources, $state, $scope, $mdDialog) {
 
             this.initialize = () => {
                 const surveyId = this.getSurveyId();
+                const promises = [];
 
-                this.loadSections();
+                promises.push(this.loadSections());
 
                 if (surveyId) {
-                    this.loadSurvey(surveyId);
+                    promises.push(this.loadSurvey(surveyId));
                 }
+
+                Promise.all(promises)
+                    .then(() => {
+                        $scope.$apply();
+                    });
             };
 
             this.loadSections = () => {
-                Resources.getSections()
+                return Resources.getSections()
                     .then((sections) => {
                         this.sections = sections;
                     });
@@ -31,7 +38,7 @@ module.exports.injectControllerTo = (mod) => {
                     Resources.getSurveySections(surveyId)
                 ];
 
-                Promise.all(promises)
+                return Promise.all(promises)
                     .then((results) => {
                         const survey = results[0];
 

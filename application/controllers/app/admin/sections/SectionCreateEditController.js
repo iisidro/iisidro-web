@@ -4,17 +4,24 @@ module.exports.injectControllerTo = (mod) => {
     mod.controller('SectionCreateEditCtrl', [
         'Resources',
         '$state',
+        '$scope',
         '$mdDialog',
-        function (Resources, $state, $mdDialog) {
+        function (Resources, $state, $scope, $mdDialog) {
 
             this.initialize = () => {
                 const sectionId = this.getSectionId();
+                const promises = [];
 
-                this.loadQuestions();
+                promises.push(this.loadQuestions());
 
                 if (sectionId) {
-                    this.loadSection(sectionId);
+                    promises.push(this.loadSection(sectionId));
                 }
+
+                Promise.all(promises)
+                    .then(() => {
+                        $scope.$apply();
+                    });
             };
 
             this.loadSection = (sectionId) => {
@@ -23,7 +30,7 @@ module.exports.injectControllerTo = (mod) => {
                     Resources.getSectionQuestions(sectionId)
                 ];
 
-                Promise.all(promises)
+                return Promise.all(promises)
                     .then((results) => {
                         const section = results[0];
 
@@ -34,7 +41,7 @@ module.exports.injectControllerTo = (mod) => {
             };
 
             this.loadQuestions = () => {
-                Resources.getQuestions()
+                return Resources.getQuestions()
                     .then((questions) => {
                         this.questions = questions;
                     });
