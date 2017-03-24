@@ -10,7 +10,7 @@ module.exports.injectControllerTo = (mod) => {
                 const questionId = this.getQuestionId();
                 const promises = [];
 
-                prmises.push(this.loadQuestionTypes());
+                promises.push(this.loadQuestionTypes());
 
                 if (questionId) {
                     promises.push(this.loadQuestion(questionId));
