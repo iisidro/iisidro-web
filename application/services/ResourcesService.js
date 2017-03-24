@@ -84,13 +84,6 @@ module.exports.injectServiceTo = (mod) => {
 
                 return API.get(config).then(dataFilter);
             };
-            this.getSurveySections = (surveyId) => {
-                const config = {
-                    url: 'secciones/encuesta/' + surveyId
-                };
-
-                return API.get(config).then(dataFilter);
-            };
             this.updateSection = (section) => {
                 const config = {
                     url: 'secciones',
@@ -127,6 +120,13 @@ module.exports.injectServiceTo = (mod) => {
             this.getSurvey = (surveyId) => {
                 const config = {
                     url: 'encuestas/' + surveyId
+                };
+
+                return API.get(config).then(dataFilter);
+            };
+            this.getSurveySections = (surveyId) => {
+                const config = {
+                    url: 'secciones/encuesta/' + surveyId
                 };
 
                 return API.get(config).then(dataFilter);

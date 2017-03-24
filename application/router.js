@@ -44,6 +44,18 @@ module.exports.injectRouterTo = (mod) => {
             // ACCESS FALLBACKS
             $urlRouterProvider.when(new RegExp('/access*'), '/access/login');
 
+            // ANWERS CONFIGURATION
+            $stateProvider
+                .state('base.answers', {
+                    url: '/answers/:surveyId',
+                    templateUrl: 'views/answers/survey-answer.html',
+                    controller: 'SurveyAnswerCtrl',
+                    controllerAs: 'surveyAnswerCtrl'
+                });
+
+            // ACCESS FALLBACKS
+            $urlRouterProvider.when(new RegExp('/answers*'), '/access/login');
+
             // APP CONFIGURATION
             $stateProvider
                 .state('base.app', {
