@@ -1,8 +1,94 @@
-<div>
-    <div ng-if="surveyAnswerCtrl.loading">
-        a
+<div ng-if="surveyAnswerCtrl.loading">
+    <div class="app-header" md-whiteframe="3" layout="column">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h1>IISIDRO</h1>
+                <span flex></span>
+                <md-menu md-position-mode="target-right target">
+                    <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
+                        <md-icon>more_vert</md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-click="appCtrl.logout($event)">
+                                <md-icon>exit_to_app</md-icon>
+                                Salir
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </md-toolbar>
     </div>
-    <div ng-if="!surveyAnswerCtrl.loading">
-        
+    <div layout-margin>
+        <md-card>
+            <md-card-content class="survey-answer-view--card">
+                <h2 class="md-display-2 survey-answer-view--title">Titulo de la Encuesta</h2>
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-0-line">
+                            <div class="md-list-item-text">
+                                <h2 class="md-subhead">Seccion1</h2>
+                            </div>
+                        </md-list-item>
+                        <md-divider />
+                        <md-list-item class="md-1-line" >
+                            <div class="md-list-item-text">
+                                <div>
+                                    <label class="md-title survey-answer-view--question">1.</label>
+                                    <md-input-container flex>
+                                        <label>Pregunta1</label>
+                                        <input name="nombre" required>
+                                    </md-input-container>
+                                </div>
+                                <div>
+                                    <label class="md-title survey-answer-view--question">2.</label>
+                                    <md-input-container flex>
+                                        <label>Pregunta2</label>
+                                        <input name="nombre" required>
+                                    </md-input-container>
+                                </div>
+                                <div>
+                                    <label class="md-title survey-answer-view--question">3.</label>
+                                    <md-input-container flex>
+                                        <label>Pregunta3</label>
+                                        <input name="nombre" required>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </md-list-item>
+                        <div class="md-list-item-text">
+                            <h2 class="md-subhead">Seccion2</h2>
+                        </div>
+                        <md-divider />
+                        <md-list-item class="md-1-line" >
+                            <div>
+                                <label class="md-title survey-answer-view--question">1.</label>
+                                <md-input-container flex>
+                                    <label>Pregunta4</label>
+                                    <input name="nombre" required>
+                                </md-input-container>
+                            </div>
+                        </md-list-item>
+                        <div class="md-list-item-text">
+                            <h2 class="md-subhead">Seccion2</h2>
+                        </div>
+                        <md-divider />
+                        <md-list-item class="md-1-line" >
+                            <div>
+                                <label class="md-title survey-answer-view--question">1.</label>
+                                <md-input-container flex>
+                                    <label>Pregunta5</label>
+                                    <input name="nombre" required>
+                                </md-input-container>
+                            </div>
+                        </md-list-item>
+
+                    </md-list>
+                </md-content>
+            </md-card-content>
+        </md-card>
     </div>
+</div>
+<div ng-if="!surveyAnswerCtrl.loading">
 </div>
